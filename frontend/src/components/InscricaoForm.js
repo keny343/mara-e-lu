@@ -32,7 +32,7 @@ function InscricaoForm() {
 
     try {
       const apiUrl = process.env.REACT_APP_API_URL || 'https://mara-e-lu-backend.up.railway.app';
-      const response = await axios.post(`${apiUrl}/api/alunos`, formData);
+      await axios.post(`${apiUrl}/api/alunos`, formData);
       
       setMensagem('Inscrição realizada com sucesso! Entraremos em contato em breve.');
       setFormData({
