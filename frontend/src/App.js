@@ -8,7 +8,6 @@ import CursosPage from './components/CursosPage';
 import ContatoPage from './components/ContatoPage';
 
 function HomePage() {
-  const [message, setMessage] = React.useState('');
   const [loading, setLoading] = React.useState(true);
   const [stats, setStats] = React.useState({
     totalInscricoes: 0,
@@ -25,14 +24,12 @@ function HomePage() {
     axios.get(`${apiUrl}/`)
       .then(response => {
         console.log('Resposta da API:', response.data);
-        setMessage(response.data.message);
         setLoading(false);
       })
       .catch(error => {
         console.error('Erro completo:', error);
         console.error('Status:', error.response?.status);
         console.error('Mensagem:', error.message);
-        setMessage(`Erro: ${error.message}`);
         setLoading(false);
       });
 
