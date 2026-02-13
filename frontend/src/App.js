@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import SobrePage from './components/SobrePage';
 import CursosPage from './components/CursosPage';
 import ContatoPage from './components/ContatoPage';
+import LoginPage from './components/LoginPage';
 
 function HomePage() {
   const [loading, setLoading] = React.useState(true);
@@ -735,6 +736,35 @@ function Navbar() {
             Inscrição
           </Link>
           <Link 
+            to="/login"
+            style={{
+              background: 'linear-gradient(135deg, #4A2C1A 0%, #2C1810 100%)',
+              color: 'white',
+              textDecoration: 'none',
+              padding: '0.75rem 1.5rem',
+              borderRadius: '10px',
+              transition: 'all 0.3s ease',
+              fontSize: '0.95rem',
+              fontWeight: '600',
+              boxShadow: '0 4px 15px rgba(74, 44, 26, 0.3)',
+              border: '1px solid rgba(74, 44, 26, 0.3)',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.5rem'
+            }}
+            onMouseOver={(e) => {
+              e.target.style.transform = 'translateY(-2px)';
+              e.target.style.boxShadow = '0 6px 20px rgba(74, 44, 26, 0.4)';
+            }}
+            onMouseOut={(e) => {
+              e.target.style.transform = 'translateY(0)';
+              e.target.style.boxShadow = '0 4px 15px rgba(74, 44, 26, 0.3)';
+            }}
+          >
+            <span>🔐</span>
+            Login
+          </Link>
+          <Link 
             to="/contato"
             style={{
               color: 'white',
@@ -805,6 +835,7 @@ function App() {
             </div>
           } />
           <Route path="/contato" element={<ContatoPage />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
         <Footer />
       </div>
