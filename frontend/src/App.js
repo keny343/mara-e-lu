@@ -34,126 +34,175 @@ function HomePage() {
       display: 'flex', 
       alignItems: 'center', 
       justifyContent: 'center',
-      fontFamily: 'Arial, sans-serif',
-      background: 'linear-gradient(135deg, #8B4513 0%, #D2691E 100%)',
-      padding: '20px'
+      fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif',
+      background: 'linear-gradient(135deg, #2C1810 0%, #4A2C1A 50%, #6B4423 100%)',
+      padding: '20px',
+      position: 'relative'
     }}>
+      {/* Elementos decorativos de fundo */}
       <div style={{
-        backgroundColor: 'white',
-        padding: '3rem',
-        borderRadius: '15px',
-        boxShadow: '0 8px 32px rgba(139, 69, 19, 0.3)',
+        position: 'absolute',
+        top: '10%',
+        left: '10%',
+        width: '200px',
+        height: '200px',
+        background: 'radial-gradient(circle, rgba(255,140,0,0.1) 0%, transparent 70%)',
+        borderRadius: '50%'
+      }}></div>
+      <div style={{
+        position: 'absolute',
+        bottom: '10%',
+        right: '10%',
+        width: '300px',
+        height: '300px',
+        background: 'radial-gradient(circle, rgba(139,69,19,0.1) 0%, transparent 70%)',
+        borderRadius: '50%'
+      }}></div>
+      
+      <div style={{
+        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+        backdropFilter: 'blur(10px)',
+        padding: '4rem',
+        borderRadius: '20px',
+        boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
         textAlign: 'center',
-        maxWidth: '500px',
+        maxWidth: '600px',
         width: '100%',
-        border: '2px solid #D2691E'
+        border: '1px solid rgba(255, 140, 0, 0.3)',
+        position: 'relative',
+        zIndex: 1
       }}>
         <div style={{
-          width: '80px',
-          height: '80px',
-          backgroundColor: '#FF8C00',
-          borderRadius: '50%',
-          margin: '0 auto 1.5rem',
+          width: '100px',
+          height: '100px',
+          background: 'linear-gradient(135deg, #FF8C00 0%, #FF6B35 100%)',
+          borderRadius: '20px',
+          margin: '0 auto 2rem',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          fontSize: '2rem',
+          fontSize: '2.5rem',
           color: 'white',
-          fontWeight: 'bold'
+          fontWeight: 'bold',
+          boxShadow: '0 8px 25px rgba(255, 140, 0, 0.3)',
+          transform: 'rotate(-5deg)'
         }}>
           M&L
         </div>
         
         <h1 style={{ 
-          color: '#8B4513', 
-          marginBottom: '1rem',
-          fontSize: '2rem',
-          fontWeight: 'bold'
+          color: '#2C1810', 
+          marginBottom: '1.5rem',
+          fontSize: '2.5rem',
+          fontWeight: '300',
+          letterSpacing: '-0.5px',
+          lineHeight: '1.2'
         }}>
-          Sistema de Inscrições e Matrículas
+          Sistema de<br/>Inscrições e Matrículas
         </h1>
         
         <div style={{
-          backgroundColor: '#FFF8DC',
-          padding: '1rem',
-          borderRadius: '8px',
-          margin: '1.5rem 0',
-          border: '1px solid #D2691E'
+          backgroundColor: 'linear-gradient(135deg, #FFF8F0 0%, #F5E6D3 100%)',
+          padding: '1.5rem',
+          borderRadius: '12px',
+          margin: '2rem 0',
+          border: '1px solid rgba(255, 140, 0, 0.2)',
+          boxShadow: '0 4px 15px rgba(0, 0, 0, 0.05)'
         }}>
           <h2 style={{ 
-            color: '#8B4513', 
-            fontSize: '1.2rem',
-            marginBottom: '0.5rem'
+            color: '#4A2C1A', 
+            fontSize: '1.3rem',
+            marginBottom: '0.5rem',
+            fontWeight: '500'
           }}>
-            Bem-vindo ao Colégio Mara e Lu!
+            Colégio Mara e Lu
           </h2>
           <p style={{ 
-            color: '#654321', 
+            color: '#6B4423', 
             margin: '0',
-            fontSize: '0.95rem'
+            fontSize: '1rem',
+            lineHeight: '1.5'
           }}>
-            Sistema online para inscrições e matrículas
+            Plataforma digital para gestão de inscrições e matrículas
           </p>
         </div>
         
         {loading ? (
-          <div style={{ color: '#FF8C00' }}>
+          <div style={{ color: '#FF8C00', fontSize: '1.1rem' }}>
             <div style={{
               display: 'inline-block',
-              width: '20px',
-              height: '20px',
-              border: '3px solid #D2691E',
+              width: '24px',
+              height: '24px',
+              border: '3px solid rgba(255, 140, 0, 0.2)',
               borderTop: '3px solid #FF8C00',
               borderRadius: '50%',
               animation: 'spin 1s linear infinite',
-              marginRight: '10px'
+              marginRight: '12px',
+              verticalAlign: 'middle'
             }}></div>
-            Carregando sistema...
+            Inicializando sistema...
           </div>
         ) : (
           <div>
-            <p style={{ 
-              color: '#654321',
-              fontSize: '1rem',
-              marginBottom: '1.5rem'
+            <div style={{
+              backgroundColor: 'rgba(44, 24, 16, 0.05)',
+              padding: '1rem',
+              borderRadius: '8px',
+              marginBottom: '2rem',
+              border: '1px solid rgba(107, 68, 35, 0.1)'
             }}>
-              Status do Backend: <strong style={{ color: '#FF8C00' }}>{message}</strong>
-            </p>
+              <p style={{ 
+                color: '#4A2C1A',
+                fontSize: '0.95rem',
+                margin: '0',
+                fontFamily: 'monospace'
+              }}>
+                <span style={{ color: '#6B4423', fontWeight: 'bold' }}>STATUS:</span> {message}
+              </p>
+            </div>
             
             <div style={{
               display: 'flex',
               gap: '1rem',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              flexWrap: 'wrap'
             }}>
               <Link 
                 to="/inscricao"
                 style={{
-                  backgroundColor: '#FF8C00',
+                  background: 'linear-gradient(135deg, #FF8C00 0%, #FF6B35 100%)',
                   color: 'white',
                   textDecoration: 'none',
-                  padding: '0.75rem 1.5rem',
-                  borderRadius: '8px',
-                  fontSize: '1rem',
+                  padding: '1rem 2rem',
+                  borderRadius: '12px',
+                  fontSize: '1.1rem',
                   cursor: 'pointer',
-                  fontWeight: 'bold',
-                  transition: 'all 0.3s',
-                  display: 'inline-block'
+                  fontWeight: '600',
+                  transition: 'all 0.3s ease',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  boxShadow: '0 8px 25px rgba(255, 140, 0, 0.25)'
                 }}
               >
-                Fazer Inscrição
+                <span>→</span> Nova Inscrição
               </Link>
               <button style={{
-                backgroundColor: '#8B4513',
+                background: 'linear-gradient(135deg, #4A2C1A 0%, #2C1810 100%)',
                 color: 'white',
                 border: 'none',
-                padding: '0.75rem 1.5rem',
-                borderRadius: '8px',
-                fontSize: '1rem',
+                padding: '1rem 2rem',
+                borderRadius: '12px',
+                fontSize: '1.1rem',
                 cursor: 'pointer',
-                fontWeight: 'bold',
-                transition: 'all 0.3s'
+                fontWeight: '600',
+                transition: 'all 0.3s ease',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                boxShadow: '0 8px 25px rgba(74, 44, 26, 0.25)'
               }}>
-                Consultar Matrícula
+                <span>🔍</span> Consultar
               </button>
             </div>
           </div>
@@ -173,15 +222,20 @@ function HomePage() {
 function Navbar() {
   return (
     <nav style={{
-      backgroundColor: '#8B4513',
+      background: 'linear-gradient(135deg, #2C1810 0%, #4A2C1A 100%)',
       padding: '1rem 2rem',
-      boxShadow: '0 2px 10px rgba(139, 69, 19, 0.3)'
+      boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
+      borderBottom: '1px solid rgba(255, 140, 0, 0.2)',
+      position: 'sticky',
+      top: 0,
+      zIndex: 1000,
+      backdropFilter: 'blur(10px)'
     }}>
       <div style={{
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        maxWidth: '1200px',
+        maxWidth: '1400px',
         margin: '0 auto'
       }}>
         <div style={{
@@ -190,36 +244,62 @@ function Navbar() {
           gap: '1rem'
         }}>
           <div style={{
-            width: '40px',
-            height: '40px',
-            backgroundColor: '#FF8C00',
-            borderRadius: '50%',
+            width: '45px',
+            height: '45px',
+            background: 'linear-gradient(135deg, #FF8C00 0%, #FF6B35 100%)',
+            borderRadius: '12px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             color: 'white',
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            fontSize: '1.2rem',
+            boxShadow: '0 4px 15px rgba(255, 140, 0, 0.3)',
+            transform: 'rotate(-3deg)'
           }}>
             M&L
           </div>
-          <span style={{
-            color: 'white',
-            fontSize: '1.2rem',
-            fontWeight: 'bold'
-          }}>
-            Colégio Mara e Lu
-          </span>
+          <div>
+            <span style={{
+              color: 'white',
+              fontSize: '1.3rem',
+              fontWeight: '600',
+              display: 'block',
+              lineHeight: '1.2'
+            }}>
+              Colégio Mara e Lu
+            </span>
+            <span style={{
+              color: 'rgba(255, 255, 255, 0.7)',
+              fontSize: '0.85rem',
+              display: 'block',
+              lineHeight: '1'
+            }}>
+              Sistema de Matrículas
+            </span>
+          </div>
         </div>
         
-        <div style={{ display: 'flex', gap: '1rem' }}>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
           <Link 
             to="/"
             style={{
               color: 'white',
               textDecoration: 'none',
-              padding: '0.5rem 1rem',
-              borderRadius: '5px',
-              transition: 'background-color 0.3s'
+              padding: '0.75rem 1.5rem',
+              borderRadius: '10px',
+              transition: 'all 0.3s ease',
+              fontSize: '0.95rem',
+              fontWeight: '500',
+              border: '1px solid transparent'
+            }}
+            onMouseOver={(e) => {
+              e.target.style.backgroundColor = 'rgba(255, 140, 0, 0.2)';
+              e.target.style.borderColor = 'rgba(255, 140, 0, 0.3)';
+            }}
+            onMouseOut={(e) => {
+              e.target.style.backgroundColor = 'transparent';
+              e.target.style.borderColor = 'transparent';
             }}
           >
             Início
@@ -227,11 +307,24 @@ function Navbar() {
           <Link 
             to="/inscricao"
             style={{
+              background: 'linear-gradient(135deg, #FF8C00 0%, #FF6B35 100%)',
               color: 'white',
               textDecoration: 'none',
-              padding: '0.5rem 1rem',
-              borderRadius: '5px',
-              transition: 'background-color 0.3s'
+              padding: '0.75rem 1.5rem',
+              borderRadius: '10px',
+              transition: 'all 0.3s ease',
+              fontSize: '0.95rem',
+              fontWeight: '600',
+              boxShadow: '0 4px 15px rgba(255, 140, 0, 0.3)',
+              border: '1px solid rgba(255, 140, 0, 0.3)'
+            }}
+            onMouseOver={(e) => {
+              e.target.style.transform = 'translateY(-2px)';
+              e.target.style.boxShadow = '0 6px 20px rgba(255, 140, 0, 0.4)';
+            }}
+            onMouseOut={(e) => {
+              e.target.style.transform = 'translateY(0)';
+              e.target.style.boxShadow = '0 4px 15px rgba(255, 140, 0, 0.3)';
             }}
           >
             Inscrição
@@ -251,11 +344,34 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/inscricao" element={
             <div style={{
-              background: 'linear-gradient(135deg, #8B4513 0%, #D2691E 100%)',
-              minHeight: 'calc(100vh - 70px)',
-              padding: '2rem'
+              background: 'linear-gradient(135deg, #2C1810 0%, #4A2C1A 50%, #6B4423 100%)',
+              minHeight: 'calc(100vh - 90px)',
+              padding: '2rem',
+              position: 'relative'
             }}>
-              <InscricaoForm />
+              {/* Elementos decorativos */}
+              <div style={{
+                position: 'absolute',
+                top: '5%',
+                left: '5%',
+                width: '150px',
+                height: '150px',
+                background: 'radial-gradient(circle, rgba(255,140,0,0.08) 0%, transparent 70%)',
+                borderRadius: '50%'
+              }}></div>
+              <div style={{
+                position: 'absolute',
+                bottom: '10%',
+                right: '5%',
+                width: '200px',
+                height: '200px',
+                background: 'radial-gradient(circle, rgba(107,68,35,0.08) 0%, transparent 70%)',
+                borderRadius: '50%'
+              }}></div>
+              
+              <div style={{ position: 'relative', zIndex: 1 }}>
+                <InscricaoForm />
+              </div>
             </div>
           } />
         </Routes>
