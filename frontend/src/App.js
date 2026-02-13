@@ -161,23 +161,6 @@ function HomePage() {
           ) : (
             <div>
               <div style={{
-                backgroundColor: 'rgba(44, 24, 16, 0.05)',
-                padding: '1.25rem',
-                borderRadius: '12px',
-                marginBottom: '2.5rem',
-                border: '1px solid rgba(107, 68, 35, 0.1)',
-                fontFamily: 'monospace'
-              }}>
-                <p style={{ 
-                  color: '#4A2C1A',
-                  fontSize: '1rem',
-                  margin: '0'
-                }}>
-                  <span style={{ color: '#6B4423', fontWeight: 'bold' }}>STATUS:</span> {message}
-                </p>
-              </div>
-              
-              <div style={{
                 display: 'flex',
                 gap: '1rem',
                 justifyContent: 'center',
