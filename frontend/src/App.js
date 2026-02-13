@@ -9,14 +9,19 @@ function App() {
     // Conectar à API do backend
     const apiUrl = process.env.REACT_APP_API_URL || 'https://seu-backend.railway.app';
     
+    console.log('Tentando conectar à API:', apiUrl);
+    
     axios.get(`${apiUrl}/`)
       .then(response => {
+        console.log('Resposta da API:', response.data);
         setMessage(response.data.message);
         setLoading(false);
       })
       .catch(error => {
-        console.error('Erro ao conectar com a API:', error);
-        setMessage('Erro ao conectar com o backend');
+        console.error('Erro completo:', error);
+        console.error('Status:', error.response?.status);
+        console.error('Mensagem:', error.message);
+        setMessage(`Erro: ${error.message}`);
         setLoading(false);
       });
   }, []);
