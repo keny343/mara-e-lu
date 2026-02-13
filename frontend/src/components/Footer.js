@@ -296,8 +296,7 @@ function Footer() {
               display: 'flex',
               gap: '1rem'
             }}>
-              <a 
-                href="#"
+              <button 
                 style={{
                   width: '40px',
                   height: '40px',
@@ -310,7 +309,9 @@ function Footer() {
                   textDecoration: 'none',
                   fontSize: '1.2rem',
                   transition: 'all 0.3s ease',
-                  boxShadow: '0 4px 15px rgba(255, 140, 0, 0.3)'
+                  boxShadow: '0 4px 15px rgba(255, 140, 0, 0.3)',
+                  border: 'none',
+                  cursor: 'pointer'
                 }}
                 onMouseOver={(e) => {
                   e.target.style.transform = 'translateY(-3px)';
@@ -320,11 +321,11 @@ function Footer() {
                   e.target.style.transform = 'translateY(0)';
                   e.target.style.boxShadow = '0 4px 15px rgba(255, 140, 0, 0.3)';
                 }}
+                aria-label="Facebook"
               >
                 📘
-              </a>
-              <a 
-                href="#"
+              </button>
+              <button 
                 style={{
                   width: '40px',
                   height: '40px',
@@ -337,7 +338,9 @@ function Footer() {
                   textDecoration: 'none',
                   fontSize: '1.2rem',
                   transition: 'all 0.3s ease',
-                  boxShadow: '0 4px 15px rgba(255, 140, 0, 0.3)'
+                  boxShadow: '0 4px 15px rgba(255, 140, 0, 0.3)',
+                  border: 'none',
+                  cursor: 'pointer'
                 }}
                 onMouseOver={(e) => {
                   e.target.style.transform = 'translateY(-3px)';
@@ -347,11 +350,11 @@ function Footer() {
                   e.target.style.transform = 'translateY(0)';
                   e.target.style.boxShadow = '0 4px 15px rgba(255, 140, 0, 0.3)';
                 }}
+                aria-label="Instagram"
               >
                 📷
-              </a>
-              <a 
-                href="#"
+              </button>
+              <button 
                 style={{
                   width: '40px',
                   height: '40px',
@@ -364,7 +367,9 @@ function Footer() {
                   textDecoration: 'none',
                   fontSize: '1.2rem',
                   transition: 'all 0.3s ease',
-                  boxShadow: '0 4px 15px rgba(255, 140, 0, 0.3)'
+                  boxShadow: '0 4px 15px rgba(255, 140, 0, 0.3)',
+                  border: 'none',
+                  cursor: 'pointer'
                 }}
                 onMouseOver={(e) => {
                   e.target.style.transform = 'translateY(-3px)';
@@ -374,11 +379,11 @@ function Footer() {
                   e.target.style.transform = 'translateY(0)';
                   e.target.style.boxShadow = '0 4px 15px rgba(255, 140, 0, 0.3)';
                 }}
+                aria-label="Twitter"
               >
                 🐦
-              </a>
-              <a 
-                href="#"
+              </button>
+              <button 
                 style={{
                   width: '40px',
                   height: '40px',
@@ -391,7 +396,9 @@ function Footer() {
                   textDecoration: 'none',
                   fontSize: '1.2rem',
                   transition: 'all 0.3s ease',
-                  boxShadow: '0 4px 15px rgba(255, 140, 0, 0.3)'
+                  boxShadow: '0 4px 15px rgba(255, 140, 0, 0.3)',
+                  border: 'none',
+                  cursor: 'pointer'
                 }}
                 onMouseOver={(e) => {
                   e.target.style.transform = 'translateY(-3px)';
@@ -401,9 +408,10 @@ function Footer() {
                   e.target.style.transform = 'translateY(0)';
                   e.target.style.boxShadow = '0 4px 15px rgba(255, 140, 0, 0.3)';
                 }}
+                aria-label="YouTube"
               >
                 📺
-              </a>
+              </button>
             </div>
           </div>
         </div>
