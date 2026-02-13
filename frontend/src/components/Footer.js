@@ -51,13 +51,14 @@ function Footer() {
                 }}>
                   Colégio Mara e Lu
                 </h3>
-                <p style={{
-                  color: 'rgba(255, 255, 255, 0.7)',
-                  fontSize: '0.85rem',
-                  margin: '0'
-                }}>
-                  Desde 2003 educando com amor
-                </p>
+                <span style={{
+              color: 'rgba(255, 255, 255, 0.7)',
+              fontSize: '0.85rem',
+              display: 'block',
+              lineHeight: '1'
+            }}>
+              Desde 2008 educando com excelência
+            </span>
               </div>
             </div>
             <p style={{
@@ -211,14 +212,13 @@ function Footer() {
                 <span style={{ color: '#FF8C00', fontSize: '1.2rem' }}>📍</span>
                 <div>
                   <p style={{
-                    color: 'rgba(255, 255, 255, 0.8)',
-                    fontSize: '0.95rem',
+                    color: '#6B4423',
                     margin: '0',
                     lineHeight: '1.4'
                   }}>
-                    Rua das Escolas, 123<br/>
-                    Centro - Cidade/UF<br/>
-                    CEP: 12.345-678
+                    Rua 15, Bairro Cassenda<br/>
+                    Distrito Urbano da Maianga<br/>
+                    Luanda, Angola
                   </p>
                 </div>
               </div>
@@ -234,7 +234,8 @@ function Footer() {
                   fontSize: '0.95rem',
                   margin: '0'
                 }}>
-                  (00) 1234-5678
+                  +244 946 340 172<br/>
+                  +244 923 537 738
                 </p>
               </div>
               

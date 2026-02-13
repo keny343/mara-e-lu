@@ -119,7 +119,7 @@ function HomePage() {
             letterSpacing: '-1px',
             lineHeight: '1.1'
           }}>
-            Colégio Mara e Lu
+            Colégio Mara e Lú
           </h1>
           
           <h2 style={{ 
@@ -646,7 +646,7 @@ function Navbar() {
               display: 'block',
               lineHeight: '1.2'
             }}>
-              Colégio Mara e Lu
+              Colégio Mara e Lú
             </span>
             <span style={{
               color: 'rgba(255, 255, 255, 0.7)',

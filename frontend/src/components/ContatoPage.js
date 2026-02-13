@@ -297,10 +297,9 @@ function ContatoPage() {
                       margin: '0',
                       lineHeight: '1.6'
                     }}>
-                      Rua das Escolas, 123<br/>
-                      Bairro Centro<br/>
-                      Cidade - UF<br/>
-                      CEP: 12.345-678
+                      Rua 15, Bairro Cassenda<br/>
+                      Distrito Urbano da Maianga<br/>
+                      Luanda, Angola
                     </p>
                   </div>
                 </div>
@@ -329,8 +328,8 @@ function ContatoPage() {
                       margin: '0',
                       lineHeight: '1.6'
                     }}>
-                      (00) 1234-5678<br/>
-                      (00) 98765-4321 (WhatsApp)
+                      +244 946 340 172<br/>
+                      +244 923 537 738
                     </p>
                   </div>
                 </div>
