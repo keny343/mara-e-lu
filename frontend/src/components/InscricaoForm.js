@@ -10,6 +10,9 @@ function InscricaoForm() {
     naturalidade: '',
     nomePai: '',
     nomeMae: '',
+    nomeResponsavel: '',
+    biResponsavel: '',
+    nifResponsavel: '',
     email: '',
     telefone: '',
     endereco: '',
@@ -142,6 +145,9 @@ function InscricaoForm() {
         naturalidade: '',
         nomePai: '',
         nomeMae: '',
+        nomeResponsavel: '',
+        biResponsavel: '',
+        nifResponsavel: '',
         email: '',
         telefone: '',
         endereco: '',
@@ -350,7 +356,7 @@ function InscricaoForm() {
                 fontWeight: '600',
                 fontSize: '0.95rem'
               }}>
-                Série *
+                Classe *
               </label>
               <select
                 name="serie"
@@ -377,7 +383,7 @@ function InscricaoForm() {
                   e.target.style.boxShadow = 'none';
                 }}
               >
-                <option value="">Selecione a série...</option>
+                <option value="">Selecione a classe...</option>
                 <option value="1-ano">1º Ano - Pré-Escolar</option>
                 <option value="2-ano">2º Ano - Pré-Escolar</option>
                 <option value="3-ano">3º Ano - Pré-Escolar</option>
@@ -1083,15 +1089,15 @@ function InscricaoForm() {
                 fontWeight: '600',
                 fontSize: '0.95rem'
               }}>
-                CPF do Responsável *
+                BI do Responsável *
               </label>
               <input
                 type="text"
-                name="cpfResponsavel"
-                value={formData.cpfResponsavel}
+                name="biResponsavel"
+                value={formData.biResponsavel || ''}
                 onChange={handleChange}
                 required
-                placeholder="000.000.000-00"
+                placeholder="000000000LA0XX"
                 style={{
                   width: '100%',
                   padding: '1rem 1.25rem',
@@ -1112,6 +1118,44 @@ function InscricaoForm() {
                 }}
               />
             </div>
+
+            <div>
+              <label style={{ 
+                display: 'block', 
+                color: '#4A2C1A', 
+                marginBottom: '0.75rem', 
+                fontWeight: '600',
+                fontSize: '0.95rem'
+              }}>
+                NIF do Responsável
+              </label>
+              <input
+                type="text"
+                name="nifResponsavel"
+                value={formData.nifResponsavel || ''}
+                onChange={handleChange}
+                placeholder="000000000LA0XX"
+                style={{
+                  width: '100%',
+                  padding: '1rem 1.25rem',
+                  border: '2px solid rgba(107, 68, 35, 0.2)',
+                  borderRadius: '12px',
+                  fontSize: '1rem',
+                  transition: 'all 0.3s ease',
+                  backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                  fontFamily: 'inherit'
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = '#FF8C00';
+                  e.target.style.boxShadow = '0 0 0 3px rgba(255, 140, 0, 0.1)';
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = 'rgba(107, 68, 35, 0.2)';
+                  e.target.style.boxShadow = 'none';
+                }}
+              />
+            </div>
+          </div>
 
             <div>
               <label style={{ 
