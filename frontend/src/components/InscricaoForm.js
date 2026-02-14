@@ -15,7 +15,9 @@ function InscricaoForm() {
     endereco: '',
     serie: '',
     fotoBi: null,
-    fotoBiUrl: ''
+    fotoBiUrl: '',
+    certificado: null,
+    certificadoUrl: ''
   });
   
   const [loading, setLoading] = useState(false);
@@ -63,6 +65,65 @@ function InscricaoForm() {
     });
   };
 
+  const handleCertificadoUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Validar tipo e tamanho
+      if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/jpg' && file.type !== 'application/pdf') {
+        alert('Por favor, envie uma imagem (JPG ou PNG) ou PDF');
+        return;
+      }
+      
+      if (file.size > 5 * 1024 * 1024) { // 5MB
+        alert('O arquivo deve ter no máximo 5MB');
+        return;
+      }
+
+      // Criar preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData({
+          ...formData,
+          certificado: file,
+          certificadoUrl: reader.result
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeCertificado = () => {
+    setFormData({
+      ...formData,
+      certificado: null,
+      certificadoUrl: ''
+    });
+  };
+
+  const getSerieAnterior = (serieAtual) => {
+    const serieMap = {
+      '1-ano': null,
+      '2-ano': '1º Ano - Pré-Escolar',
+      '3-ano': '2º Ano - Pré-Escolar',
+      '4-ano': '3º Ano - Pré-Escolar',
+      '5-ano': '4º Ano - Pré-Escolar',
+      '6-ano': '5º Ano - Pré-Escolar',
+      '7-ano': '1ª Classe - Ensino Primário',
+      '8-ano': '2ª Classe - Ensino Primário',
+      '9-ano': '3ª Classe - Ensino Primário',
+      '10-ano': '4ª Classe - Ensino Primário',
+      '11-ano': '5ª Classe - Ensino Primário',
+      '12-ano': '6ª Classe - Ensino Primário',
+      '13-ano': '7ª Classe - Ensino Médio I',
+      '14-ano': '8ª Classe - Ensino Médio I',
+      '15-ano': '9ª Classe - Ensino Médio I',
+      '16-ano': '10ª Classe - Ensino Médio II',
+      '17-ano': '11ª Classe - Ensino Médio II',
+      '18-ano': '12ª Classe - Ensino Médio II'
+    };
+    return serieMap[serieAtual];
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -86,7 +147,9 @@ function InscricaoForm() {
         endereco: '',
         serie: '',
         fotoBi: null,
-        fotoBiUrl: ''
+        fotoBiUrl: '',
+        certificado: null,
+        certificadoUrl: ''
       });
     } catch (error) {
       setMensagem('Erro ao realizar inscrição. Tente novamente mais tarde.');
@@ -315,15 +378,24 @@ function InscricaoForm() {
                 }}
               >
                 <option value="">Selecione a série...</option>
-                <option value="1-ano">1º Ano - Ensino Fundamental I</option>
-                <option value="2-ano">2º Ano - Ensino Fundamental I</option>
-                <option value="3-ano">3º Ano - Ensino Fundamental I</option>
-                <option value="4-ano">4º Ano - Ensino Fundamental I</option>
-                <option value="5-ano">5º Ano - Ensino Fundamental I</option>
-                <option value="6-ano">6º Ano - Ensino Fundamental II</option>
-                <option value="7-ano">7º Ano - Ensino Fundamental II</option>
-                <option value="8-ano">8º Ano - Ensino Fundamental II</option>
-                <option value="9-ano">9º Ano - Ensino Fundamental II</option>
+                <option value="1-ano">1º Ano - Pré-Escolar</option>
+                <option value="2-ano">2º Ano - Pré-Escolar</option>
+                <option value="3-ano">3º Ano - Pré-Escolar</option>
+                <option value="4-ano">4º Ano - Pré-Escolar</option>
+                <option value="5-ano">5º Ano - Pré-Escolar</option>
+                <option value="6-ano">1ª Classe - Ensino Primário</option>
+                <option value="7-ano">2ª Classe - Ensino Primário</option>
+                <option value="8-ano">3ª Classe - Ensino Primário</option>
+                <option value="9-ano">4ª Classe - Ensino Primário</option>
+                <option value="10-ano">5ª Classe - Ensino Primário</option>
+                <option value="11-ano">6ª Classe - Ensino Primário</option>
+                <option value="12-ano">7ª Classe - Ensino Médio I</option>
+                <option value="13-ano">8ª Classe - Ensino Médio I</option>
+                <option value="14-ano">9ª Classe - Ensino Médio I</option>
+                <option value="15-ano">10ª Classe - Ensino Médio II</option>
+                <option value="16-ano">11ª Classe - Ensino Médio II</option>
+                <option value="17-ano">12ª Classe - Ensino Médio II</option>
+                <option value="18-ano">13ª Classe - Ensino Médio II</option>
               </select>
             </div>
           </div>
@@ -708,6 +780,229 @@ function InscricaoForm() {
             </div>
           </div>
         </div>
+
+        {/* Campo de Certificado - Aparece dinamicamente */}
+        {formData.serie && getSerieAnterior(formData.serie) && (
+          <div style={{ marginBottom: '3rem' }}>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '1rem',
+              marginBottom: '2rem',
+              paddingBottom: '1rem',
+              borderBottom: '1px solid rgba(107, 68, 35, 0.1)'
+            }}>
+              <div style={{
+                width: '40px',
+                height: '40px',
+                background: 'linear-gradient(135deg, #4A2C1A 0%, #2C1810 100%)',
+                borderRadius: '10px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'white',
+                fontSize: '1.2rem'
+              }}>
+                🎓
+              </div>
+              <div>
+                <h3 style={{ 
+                  color: '#2C1810', 
+                  fontSize: '1.5rem',
+                  fontWeight: '500',
+                  margin: '0 0 0.25rem 0'
+                }}>
+                  Certificado de Conclusão
+                </h3>
+                <p style={{
+                  color: '#6B4423',
+                  fontSize: '0.9rem',
+                  margin: '0'
+                }}>
+                  {getSerieAnterior(formData.serie)}
+                </p>
+              </div>
+            </div>
+            
+            <div style={{ marginBottom: '1.5rem' }}>
+              <label style={{ 
+                display: 'block', 
+                color: '#4A2C1A', 
+                marginBottom: '0.75rem', 
+                fontWeight: '600',
+                fontSize: '0.95rem'
+              }}>
+                Certificado de Conclusão da {getSerieAnterior(formData.serie)} *
+              </label>
+              <div style={{
+                border: '2px dashed rgba(255, 140, 0, 0.3)',
+                borderRadius: '12px',
+                padding: '2rem',
+                textAlign: 'center',
+                backgroundColor: 'rgba(255, 140, 0, 0.05)',
+                transition: 'all 0.3s ease'
+              }}>
+                {formData.certificadoUrl ? (
+                  <div>
+                    {formData.certificado?.type === 'application/pdf' ? (
+                      <div style={{
+                        padding: '2rem',
+                        backgroundColor: 'rgba(255, 140, 0, 0.1)',
+                        borderRadius: '8px',
+                        marginBottom: '1rem'
+                      }}>
+                        <div style={{
+                          fontSize: '3rem',
+                          marginBottom: '1rem',
+                          color: '#FF8C00'
+                        }}>
+                          📄
+                        </div>
+                        <p style={{
+                          color: '#6B4423',
+                          fontSize: '1rem',
+                          margin: '0'
+                        }}>
+                          {formData.certificado.name}
+                        </p>
+                      </div>
+                    ) : (
+                      <img 
+                        src={formData.certificadoUrl} 
+                        alt="Preview do Certificado" 
+                        style={{
+                          maxWidth: '300px',
+                          maxHeight: '200px',
+                          borderRadius: '8px',
+                          marginBottom: '1rem',
+                          boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)'
+                        }}
+                      />
+                    )}
+                    <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+                      <button
+                        type="button"
+                        onClick={removeCertificado}
+                        style={{
+                          background: 'linear-gradient(135deg, #dc3545 0%, #c82333 100%)',
+                          color: 'white',
+                          border: 'none',
+                          padding: '0.75rem 1.5rem',
+                          borderRadius: '8px',
+                          fontSize: '0.9rem',
+                          cursor: 'pointer',
+                          fontWeight: '600',
+                          transition: 'all 0.3s ease'
+                        }}
+                        onMouseOver={(e) => {
+                          e.target.style.transform = 'translateY(-2px)';
+                          e.target.style.boxShadow = '0 4px 15px rgba(220, 53, 69, 0.3)';
+                        }}
+                        onMouseOut={(e) => {
+                          e.target.style.transform = 'translateY(0)';
+                          e.target.style.boxShadow = 'none';
+                        }}
+                      >
+                        Remover Arquivo
+                      </button>
+                      <label
+                        style={{
+                          background: 'linear-gradient(135deg, #FF8C00 0%, #FF6B35 100%)',
+                          color: 'white',
+                          padding: '0.75rem 1.5rem',
+                          borderRadius: '8px',
+                          fontSize: '0.9rem',
+                          cursor: 'pointer',
+                          fontWeight: '600',
+                          transition: 'all 0.3s ease',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '0.5rem'
+                        }}
+                        onMouseOver={(e) => {
+                          e.target.style.transform = 'translateY(-2px)';
+                          e.target.style.boxShadow = '0 4px 15px rgba(255, 140, 0, 0.3)';
+                        }}
+                        onMouseOut={(e) => {
+                          e.target.style.transform = 'translateY(0)';
+                          e.target.style.boxShadow = 'none';
+                        }}
+                      >
+                        <span>🔄</span>
+                        Trocar Arquivo
+                      </label>
+                      <input
+                        type="file"
+                        accept="image/jpeg,image/jpg,image/png,application/pdf"
+                        onChange={handleCertificadoUpload}
+                        style={{ display: 'none' }}
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <div style={{
+                      fontSize: '3rem',
+                      marginBottom: '1rem',
+                      color: '#FF8C00'
+                    }}>
+                      📜
+                    </div>
+                    <p style={{
+                      color: '#6B4423',
+                      fontSize: '1rem',
+                      marginBottom: '1.5rem',
+                      margin: '0 0 1.5rem 0'
+                    }}>
+                      Envie o certificado de conclusão da {getSerieAnterior(formData.serie)}
+                    </p>
+                    <label
+                      style={{
+                        background: 'linear-gradient(135deg, #FF8C00 0%, #FF6B35 100%)',
+                        color: 'white',
+                        padding: '1rem 2rem',
+                        borderRadius: '10px',
+                        fontSize: '1rem',
+                        cursor: 'pointer',
+                        fontWeight: '600',
+                        transition: 'all 0.3s ease',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.75rem',
+                        boxShadow: '0 4px 15px rgba(255, 140, 0, 0.3)'
+                      }}
+                      onMouseOver={(e) => {
+                        e.target.style.transform = 'translateY(-2px)';
+                        e.target.style.boxShadow = '0 6px 20px rgba(255, 140, 0, 0.4)';
+                      }}
+                      onMouseOut={(e) => {
+                        e.target.style.transform = 'translateY(0)';
+                        e.target.style.boxShadow = '0 4px 15px rgba(255, 140, 0, 0.3)';
+                      }}
+                    >
+                      <span>📤</span>
+                      Escolher Certificado
+                    </label>
+                    <input
+                      type="file"
+                      accept="image/jpeg,image/jpg,image/png,application/pdf"
+                      onChange={handleCertificadoUpload}
+                      style={{ display: 'none' }}
+                    />
+                    <p style={{
+                      color: '#6B4423',
+                      fontSize: '0.85rem',
+                      marginTop: '1rem',
+                      margin: '1rem 0 0 0'
+                    }}>
+                      Formatos aceitos: JPG, PNG, PDF. Tamanho máximo: 5MB
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
 
         <div style={{ marginBottom: '3rem' }}>
           <div style={{
