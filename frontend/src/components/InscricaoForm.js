@@ -1173,7 +1173,7 @@ function InscricaoForm() {
                 value={formData.telefone}
                 onChange={handleChange}
                 required
-                placeholder="(00) 00000-0000"
+                placeholder="+244 900 000 000"
                 style={{
                   width: '100%',
                   padding: '1rem 1.25rem',
