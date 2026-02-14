@@ -1270,7 +1270,6 @@ function InscricaoForm() {
                 e.target.style.boxShadow = 'none';
               }}
             />
-          </div>
         </div>
 
         <div style={{
