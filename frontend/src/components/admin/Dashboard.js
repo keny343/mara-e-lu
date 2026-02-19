@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {
@@ -78,7 +78,7 @@ const Dashboard = () => {
     { id: 5, nome: 'Carlos Silva', curso: 'Inglês Intermediário', status: 'aprovada', data: '2024-01-13' }
   ];
 
-  const fetchDashboardData = async () => {
+  const fetchDashboardData = useCallback(async () => {
     try {
       const api = axios.create({
         baseURL: process.env.REACT_APP_API_URL || 'https://mara-e-lu-backend.up.railway.app',
@@ -122,11 +122,11 @@ const Dashboard = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [mockStats, mockInscricoes]);
 
   useEffect(() => {
     fetchDashboardData();
-  }, []);
+  }, [fetchDashboardData]);
 
   const getStatusColor = (status) => {
     const colors = {
