@@ -43,7 +43,7 @@ router.post('/login-simple', async (req, res) => {
         id: usuario.id,
         nome: usuario.nome,
         email: usuario.email,
-        nivel: usuario.nivel
+        tipo: usuario.tipo
       }
     });
   } catch (error) {
