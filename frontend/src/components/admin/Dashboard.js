@@ -78,10 +78,6 @@ const Dashboard = () => {
     { id: 5, nome: 'Carlos Silva', curso: 'Inglês Intermediário', status: 'aprovada', data: '2024-01-13' }
   ];
 
-  useEffect(() => {
-    fetchDashboardData();
-  }, []);
-
   const fetchDashboardData = async () => {
     try {
       const api = axios.create({
@@ -127,6 +123,10 @@ const Dashboard = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
 
   const getStatusColor = (status) => {
     const colors = {
