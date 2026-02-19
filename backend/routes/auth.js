@@ -101,27 +101,6 @@ router.post('/login', [
   }
 });
 
-// Rota temporária para atualizar senha (REMOVER DEPOIS)
-router.post('/update-password', async (req, res) => {
-  try {
-    const hashedPassword = await bcrypt.hash('admin123', 10);
-    
-    const result = await db.query(
-      'UPDATE usuarios SET senha = ? WHERE email = ?',
-      [hashedPassword, 'admin@maraelu.co.ao']
-    );
-    
-    res.json({ 
-      message: 'Senha atualizada com sucesso',
-      affectedRows: result.affectedRows,
-      hash: hashedPassword
-    });
-  } catch (error) {
-    console.error('Erro ao atualizar senha:', error);
-    res.status(500).json({ error: 'Erro ao atualizar senha' });
-  }
-});
-
 // Verificar token
 router.get('/verify', async (req, res) => {
   try {
