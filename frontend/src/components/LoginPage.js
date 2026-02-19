@@ -31,7 +31,15 @@ function LoginPage() {
       const apiUrl = process.env.REACT_APP_API_URL || 'https://mara-e-lu-backend.up.railway.app';
       console.log('Fazendo request para:', `${apiUrl}/api/auth/login-simple`);
       
-      const response = await axios.post(`${apiUrl}/api/auth/login-simple`, formData);
+      // Enviar dados manualmente para garantir
+      const requestData = {
+        email: formData.email,
+        senha: formData.senha
+      };
+      
+      console.log('Request data manual:', requestData);
+      
+      const response = await axios.post(`${apiUrl}/api/auth/login-simple`, requestData);
       console.log('Resposta da API:', response.data);
       
       // Armazenar token
