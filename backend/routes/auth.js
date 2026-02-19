@@ -12,41 +12,58 @@ router.post('/login', [
   body('senha').isLength({ min: 6 })
 ], async (req, res) => {
   try {
+    console.log('=== DEBUG /api/auth/login ===');
+    console.log('req.body:', req.body);
+    
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
     const { email, senha } = req.body;
+    console.log('Buscando usuário com email:', email);
 
     // Buscar usuário
     const usuarios = await db.query(
       'SELECT * FROM usuarios WHERE email = ?',
       [email]
     );
+    console.log('Usuários encontrados:', usuarios.length);
 
     if (usuarios.length === 0) {
       return res.status(401).json({ error: 'Credenciais inválidas' });
     }
 
     const usuario = usuarios[0];
+    console.log('Usuário encontrado:', { id: usuario.id, email: usuario.email, nivel: usuario.nivel });
 
     // Verificar senha
     const senhaNoBanco = String(usuario.senha || '');
     const senhaPareceHashBcrypt = senhaNoBanco.startsWith('$2a$') || senhaNoBanco.startsWith('$2b$') || senhaNoBanco.startsWith('$2y$');
+    console.log('Senha no banco (primeiros 20 chars):', senhaNoBanco.substring(0, 20));
+    console.log('Parece hash bcrypt:', senhaPareceHashBcrypt);
+    
     const senhaValida = senhaPareceHashBcrypt
       ? await bcrypt.compare(senha, senhaNoBanco)
       : senha === senhaNoBanco;
+    
+    console.log('Senha válida:', senhaValida);
+    
     if (!senhaValida) {
       return res.status(401).json({ error: 'Credenciais inválidas' });
     }
 
     // Gerar token
+    console.log('JWT_SECRET existe?', !!process.env.JWT_SECRET);
+    console.log('JWT_EXPIRES_IN:', process.env.JWT_EXPIRES_IN);
+    
     const token = jwt.sign(
       { id: usuario.id, email: usuario.email, nivel: usuario.nivel },
       process.env.JWT_SECRET,
       { expiresIn: process.env.JWT_EXPIRES_IN }
     );
+    
+    console.log('Token gerado com sucesso');
 
     res.json({
       token,
