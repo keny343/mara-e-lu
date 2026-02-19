@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
     let params = [];
     
     if (search) {
-      query += ' WHERE nome_completo LIKE ? OR email LIKE ? OR cpf LIKE ?';
+      query += ' WHERE nome_completo LIKE ? OR email LIKE ? OR numero_bilhete LIKE ?';
       params.push(`%${search}%`, `%${search}%`, `%${search}%`);
     }
     
@@ -30,7 +30,7 @@ router.get('/', async (req, res) => {
     let countParams = [];
     
     if (search) {
-      countQuery += ' WHERE nome_completo LIKE ? OR email LIKE ? OR cpf LIKE ?';
+      countQuery += ' WHERE nome_completo LIKE ? OR email LIKE ? OR numero_bilhete LIKE ?';
       countParams.push(`%${search}%`, `%${search}%`, `%${search}%`);
     }
     

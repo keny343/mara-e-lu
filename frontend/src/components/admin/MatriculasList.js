@@ -52,7 +52,7 @@ const MatriculasList = () => {
           status: 'ativa',
           data_matricula: '2024-01-15T10:30:00',
           valor_final: 199.90,
-          forma_pagamento: 'pix'
+          forma_pagamento: 'multicaixa'
         },
         {
           id: 2,
@@ -63,7 +63,7 @@ const MatriculasList = () => {
           status: 'ativa',
           data_matricula: '2024-01-14T14:20:00',
           valor_final: 299.90,
-          forma_pagamento: 'boleto'
+          forma_pagamento: 'referencia'
         }
       ]);
     } finally {

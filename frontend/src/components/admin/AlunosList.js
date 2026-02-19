@@ -52,8 +52,8 @@ const AlunosList = () => {
           id: 1,
           nome_completo: 'João Silva',
           email: 'joao@email.com',
-          cpf: '123.456.789-00',
-          telefone: '(11) 98765-4321',
+          numero_bilhete: '001234567LA001',
+          telefone: '+244 923 456 789',
           data_nascimento: '1990-05-15',
           created_at: '2024-01-10'
         },
@@ -61,8 +61,8 @@ const AlunosList = () => {
           id: 2,
           nome_completo: 'Maria Santos',
           email: 'maria@email.com',
-          cpf: '987.654.321-00',
-          telefone: '(11) 91234-5678',
+          numero_bilhete: '001234568LA002',
+          telefone: '+244 912 345 678',
           data_nascimento: '1992-08-22',
           created_at: '2024-01-12'
         }
@@ -97,14 +97,10 @@ const AlunosList = () => {
     return new Date(dateString).toLocaleDateString('pt-BR');
   };
 
-  const formatCPF = (cpf) => {
-    if (!cpf) return '';
-    return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
-  };
-
   const formatPhone = (phone) => {
     if (!phone) return '';
-    return phone.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+    // Formato para telefone angolano: +244 XXX XXX XXX
+    return phone;
   };
 
   if (loading) {
@@ -143,7 +139,7 @@ const AlunosList = () => {
           <input
             type="text"
             className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Buscar por nome, email ou CPF..."
+            placeholder="Buscar por nome, email ou número de bilhete..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -174,7 +170,7 @@ const AlunosList = () => {
                         </h3>
                         <div className="mt-1 flex flex-wrap gap-4 text-sm text-gray-500">
                           <span>{aluno.email}</span>
-                          <span>{formatCPF(aluno.cpf)}</span>
+                          <span>{aluno.numero_bilhete}</span>
                           <span>{formatPhone(aluno.telefone)}</span>
                           <span>Nasc: {formatDate(aluno.data_nascimento)}</span>
                         </div>
