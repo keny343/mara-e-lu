@@ -31,6 +31,52 @@ router.post('/create-admin', async (req, res) => {
   }
 });
 
+// Teste simples sem validação
+router.post('/test', async (req, res) => {
+  try {
+    console.log('=== DEBUG /api/auth/test ===');
+    const { email, senha } = req.body;
+    console.log('Email:', email, 'Senha:', senha);
+
+    // Buscar usuário
+    const usuarios = await db.query(
+      'SELECT * FROM usuarios WHERE email = ?',
+      [email]
+    );
+    console.log('Usuários encontrados:', usuarios.length);
+
+    if (usuarios.length === 0) {
+      return res.status(401).json({ error: 'Usuário não encontrado' });
+    }
+
+    const usuario = usuarios[0];
+    console.log('Usuário encontrado:', { id: usuario.id, email: usuario.email, tipo: usuario.tipo });
+
+    // Verificação simples (sem hash)
+    if (senha !== usuario.senha) {
+      return res.status(401).json({ error: 'Senha incorreta' });
+    }
+
+    // Gerar token simples
+    const token = Buffer.from(`${email}:${senha}`).toString('base64');
+    
+    console.log('Login teste sucesso!');
+    
+    res.json({
+      token,
+      usuario: {
+        id: usuario.id,
+        nome: usuario.nome,
+        email: usuario.email,
+        tipo: usuario.tipo
+      }
+    });
+  } catch (error) {
+    console.error('Erro no login teste:', error);
+    res.status(500).json({ error: 'Erro interno do servidor' });
+  }
+});
+
 // Login simplificado (sem hash)
 router.post('/login-simple', async (req, res) => {
   try {
