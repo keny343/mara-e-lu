@@ -1,6 +1,5 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import axios from 'axios';
 
 const ProtectedRoute = ({ children }) => {
   const location = useLocation();

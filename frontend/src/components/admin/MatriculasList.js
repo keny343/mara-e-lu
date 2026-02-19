@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {
   MagnifyingGlassIcon,
-  PlusIcon,
   EyeIcon,
   DocumentTextIcon
 } from '@heroicons/react/24/outline';
@@ -17,9 +16,9 @@ const MatriculasList = () => {
 
   useEffect(() => {
     fetchMatriculas();
-  }, [currentPage, searchTerm]);
+  }, [currentPage, searchTerm, fetchMatriculas]);
 
-  const fetchMatriculas = async () => {
+  const fetchMatriculas = useCallback(async () => {
     try {
       const api = axios.create({
         baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8080',
@@ -70,7 +69,7 @@ const MatriculasList = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [currentPage, searchTerm]);
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('pt-BR', {

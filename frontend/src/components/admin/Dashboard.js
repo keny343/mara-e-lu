@@ -5,19 +5,10 @@ import {
   UserGroupIcon,
   AcademicCapIcon,
   DocumentTextIcon,
-  CurrencyDollarIcon,
-  ChartBarIcon
+  CurrencyDollarIcon
 } from '@heroicons/react/24/outline';
 
 const StatCard = ({ title, value, icon: Icon, color = 'blue', link }) => {
-  const colorClasses = {
-    blue: 'bg-blue-500',
-    green: 'bg-green-500',
-    yellow: 'bg-yellow-500',
-    red: 'bg-red-500',
-    purple: 'bg-purple-500'
-  };
-
   const bgClasses = {
     blue: 'bg-blue-50',
     green: 'bg-green-50',

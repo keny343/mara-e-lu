@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {
@@ -23,9 +23,9 @@ const InscricoesList = () => {
 
   useEffect(() => {
     fetchInscricoes();
-  }, [currentPage, searchTerm, statusFilter]);
+  }, [currentPage, searchTerm, statusFilter, fetchInscricoes]);
 
-  const fetchInscricoes = async () => {
+  const fetchInscricoes = useCallback(async () => {
     try {
       const api = axios.create({
         baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8080',
@@ -85,7 +85,7 @@ const InscricoesList = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [currentPage, searchTerm, statusFilter]);
 
   const handleStatusUpdate = async () => {
     if (!inscricaoToUpdate || !newStatus) return;

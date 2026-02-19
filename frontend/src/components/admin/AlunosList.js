@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {
@@ -21,9 +21,9 @@ const AlunosList = () => {
 
   useEffect(() => {
     fetchAlunos();
-  }, [currentPage, searchTerm]);
+  }, [currentPage, searchTerm, fetchAlunos]);
 
-  const fetchAlunos = async () => {
+  const fetchAlunos = useCallback(async () => {
     try {
       const api = axios.create({
         baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8080',
@@ -70,7 +70,7 @@ const AlunosList = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [currentPage, searchTerm]);
 
   const handleDelete = async () => {
     if (!alunoToDelete) return;
