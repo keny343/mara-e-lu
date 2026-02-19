@@ -16,7 +16,7 @@ router.post('/create-admin', async (req, res) => {
     
     // Inserir usuário com senha criptografada
     const result = await db.query(
-      'INSERT INTO usuarios (nome, email, senha, nivel) VALUES (?, ?, ?, ?)',
+      'INSERT INTO usuarios (nome, email, senha, tipo) VALUES (?, ?, ?, ?)',
       ['Administrador', 'admin@maraelu.co.ao', hashedPassword, 'admin']
     );
     
@@ -63,7 +63,7 @@ router.post('/login', [
     }
 
     const usuario = usuarios[0];
-    console.log('Usuário encontrado:', { id: usuario.id, email: usuario.email, nivel: usuario.nivel });
+    console.log('Usuário encontrado:', { id: usuario.id, email: usuario.email, tipo: usuario.tipo });
 
     // Verificar senha com bcrypt (sempre usar bcrypt.compare)
     const senhaValida = await bcrypt.compare(senha, usuario.senha);
@@ -79,7 +79,7 @@ router.post('/login', [
     console.log('JWT_EXPIRES_IN:', process.env.JWT_EXPIRES_IN);
     
     const token = jwt.sign(
-      { id: usuario.id, email: usuario.email, nivel: usuario.nivel },
+      { id: usuario.id, email: usuario.email, tipo: usuario.tipo },
       process.env.JWT_SECRET,
       { expiresIn: process.env.JWT_EXPIRES_IN }
     );
@@ -92,7 +92,7 @@ router.post('/login', [
         id: usuario.id,
         nome: usuario.nome,
         email: usuario.email,
-        nivel: usuario.nivel
+        tipo: usuario.tipo
       }
     });
   } catch (error) {
@@ -113,7 +113,7 @@ router.get('/verify', async (req, res) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     
     const usuarios = await db.query(
-      'SELECT id, nome, email, nivel FROM usuarios WHERE id = ?',
+      'SELECT id, nome, email, tipo FROM usuarios WHERE id = ?',
       [decoded.id]
     );
 
