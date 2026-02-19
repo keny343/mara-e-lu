@@ -92,7 +92,7 @@ const Dashboard = () => {
 
       // Buscar inscrições recentes
       const recentRes = await api.get('/api/inscricoes?limit=5&sort=desc');
-      setRecentInscricoes(recentRes.data || []);
+      setRecentInscricoes(Array.isArray(recentRes.data) ? recentRes.data : []);
 
     } catch (error) {
       console.error('Erro ao buscar dados do dashboard:', error);
@@ -184,7 +184,7 @@ const Dashboard = () => {
             </h3>
             <div className="flow-root">
               <ul className="-my-5 divide-y divide-gray-200">
-                {recentInscricoes.map((inscricao) => (
+                {Array.isArray(recentInscricoes) && recentInscricoes.map((inscricao) => (
                   <li key={inscricao.id} className="py-4">
                     <div className="flex items-center space-x-4">
                       <div className="flex-shrink-0">
