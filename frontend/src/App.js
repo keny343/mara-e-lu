@@ -25,7 +25,7 @@ function HomePage() {
 
   React.useEffect(() => {
     // Conectar à API do backend
-    const apiUrl = process.env.REACT_APP_API_URL || 'https://seu-backend.railway.app';
+    const apiUrl = process.env.REACT_APP_API_URL || 'https://mara-e-lu-backend.up.railway.app';
     
     console.log('Tentando conectar à API:', apiUrl);
     

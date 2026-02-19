@@ -22,7 +22,7 @@ const CursosList = () => {
   const fetchCursos = useCallback(async () => {
     try {
       const api = axios.create({
-        baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8080',
+        baseURL: process.env.REACT_APP_API_URL || 'https://mara-e-lu-backend.up.railway.app',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -85,7 +85,7 @@ const CursosList = () => {
 
     try {
       const api = axios.create({
-        baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8080',
+        baseURL: process.env.REACT_APP_API_URL || 'https://mara-e-lu-backend.up.railway.app',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
