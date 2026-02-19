@@ -7,6 +7,13 @@ import SobrePage from './components/SobrePage';
 import CursosPage from './components/CursosPage';
 import ContatoPage from './components/ContatoPage';
 import LoginPage from './components/LoginPage';
+import AdminLayout from './components/admin/AdminLayout';
+import Dashboard from './components/admin/Dashboard';
+import AlunosList from './components/admin/AlunosList';
+import CursosList from './components/admin/CursosList';
+import InscricoesList from './components/admin/InscricoesList';
+import MatriculasList from './components/admin/MatriculasList';
+import ProtectedRoute from './components/admin/ProtectedRoute';
 
 function HomePage() {
   const [loading, setLoading] = React.useState(true);
@@ -1105,6 +1112,19 @@ function App() {
           } />
           <Route path="/contato" element={<ContatoPage />} />
           <Route path="/login" element={<LoginPage />} />
+          
+          {/* Rotas Administrativas */}
+          <Route path="/admin" element={
+            <ProtectedRoute>
+              <AdminLayout />
+            </ProtectedRoute>
+          }>
+            <Route index element={<Dashboard />} />
+            <Route path="alunos" element={<AlunosList />} />
+            <Route path="cursos" element={<CursosList />} />
+            <Route path="inscricoes" element={<InscricoesList />} />
+            <Route path="matriculas" element={<MatriculasList />} />
+          </Route>
         </Routes>
         <Footer />
       </div>

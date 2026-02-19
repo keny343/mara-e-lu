@@ -7,12 +7,63 @@ const router = express.Router();
 // Listar todos os cursos
 router.get('/', async (req, res) => {
   try {
-    const cursos = await db.query(
-      'SELECT * FROM cursos WHERE status = "ativo" ORDER BY data_inicio ASC'
-    );
-    res.json(cursos);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const search = req.query.search || '';
+    const offset = (page - 1) * limit;
+
+    let query = 'SELECT * FROM cursos';
+    let params = [];
+    
+    if (search) {
+      query += ' WHERE nome LIKE ?';
+      params.push(`%${search}%`);
+    } else {
+      query += ' WHERE status = "ativo"';
+    }
+    
+    query += ' ORDER BY data_inicio ASC LIMIT ? OFFSET ?';
+    params.push(limit, offset);
+    
+    const cursos = await db.query(query, params);
+    
+    // Buscar total para paginação
+    let countQuery = 'SELECT COUNT(*) as total FROM cursos';
+    let countParams = [];
+    
+    if (search) {
+      countQuery += ' WHERE nome LIKE ?';
+      countParams.push(`%${search}%`);
+    } else {
+      countQuery += ' WHERE status = "ativo"';
+    }
+    
+    const countResult = await db.query(countQuery, countParams);
+    const total = countResult[0].total;
+    const totalPages = Math.ceil(total / limit);
+    
+    res.json({
+      cursos,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages
+      }
+    });
   } catch (error) {
     console.error('Erro ao listar cursos:', error);
+    res.status(500).json({ error: 'Erro interno do servidor' });
+  }
+});
+
+// Contar cursos
+router.get('/count', async (req, res) => {
+  try {
+    const result = await db.query('SELECT COUNT(*) as count FROM cursos WHERE status = "ativo"');
+    res.json({ count: result[0].count });
+  } catch (error) {
+    console.error('Erro ao contar cursos:', error);
     res.status(500).json({ error: 'Erro interno do servidor' });
   }
 });

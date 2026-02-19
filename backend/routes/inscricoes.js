@@ -7,8 +7,14 @@ const router = express.Router();
 // Listar inscrições
 router.get('/', async (req, res) => {
   try {
-    const inscricoes = await db.query(
-      `SELECT 
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const search = req.query.search || '';
+    const status = req.query.status || '';
+    const offset = (page - 1) * limit;
+
+    let query = `
+      SELECT 
         i.*, 
         a.nome_completo AS aluno_nome,
         a.email AS aluno_email,
@@ -16,12 +22,80 @@ router.get('/', async (req, res) => {
       FROM inscricoes i
       INNER JOIN alunos a ON a.id = i.aluno_id
       INNER JOIN cursos c ON c.id = i.curso_id
-      ORDER BY i.data_inscricao DESC`
-    );
+    `;
+    let params = [];
+    let whereConditions = [];
 
-    res.json(inscricoes);
+    if (search) {
+      whereConditions.push('(a.nome_completo LIKE ? OR c.nome LIKE ?)');
+      params.push(`%${search}%`, `%${search}%`);
+    }
+
+    if (status) {
+      whereConditions.push('i.status = ?');
+      params.push(status);
+    }
+
+    if (whereConditions.length > 0) {
+      query += ' WHERE ' + whereConditions.join(' AND ');
+    }
+
+    query += ' ORDER BY i.data_inscricao DESC LIMIT ? OFFSET ?';
+    params.push(limit, offset);
+    
+    const inscricoes = await db.query(query, params);
+    
+    // Buscar total para paginação
+    let countQuery = `
+      SELECT COUNT(*) as total 
+      FROM inscricoes i
+      INNER JOIN alunos a ON a.id = i.aluno_id
+      INNER JOIN cursos c ON c.id = i.curso_id
+    `;
+    let countParams = [];
+    
+    if (whereConditions.length > 0) {
+      countQuery += ' WHERE ' + whereConditions.join(' AND ');
+      countParams.push(...params.slice(0, -2)); // Remove limit e offset
+    }
+    
+    const countResult = await db.query(countQuery, countParams);
+    const total = countResult[0].total;
+    const totalPages = Math.ceil(total / limit);
+    
+    // Formatar dados para o frontend
+    const formattedInscricoes = inscricoes.map(inscricao => ({
+      id: inscricao.id,
+      nome_aluno: inscricao.aluno_nome,
+      email_aluno: inscricao.aluno_email,
+      nome_curso: inscricao.curso_nome,
+      status: inscricao.status,
+      data_inscricao: inscricao.data_inscricao,
+      observacoes: inscricao.observacoes
+    }));
+    
+    res.json({
+      inscricoes: formattedInscricoes,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages
+      }
+    });
   } catch (error) {
     console.error('Erro ao listar inscrições:', error);
+    res.status(500).json({ error: 'Erro interno do servidor' });
+  }
+});
+
+// Contar inscrições
+router.get('/count', async (req, res) => {
+  try {
+    const result = await db.query('SELECT COUNT(*) as count FROM inscricoes');
+    res.json({ count: result[0].count });
+  } catch (error) {
+    console.error('Erro ao contar inscrições:', error);
     res.status(500).json({ error: 'Erro interno do servidor' });
   }
 });
