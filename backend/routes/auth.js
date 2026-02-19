@@ -18,6 +18,7 @@ router.post('/create-admin', async (req, res) => {
     );
     
     console.log('Usuário criado:', result);
+    console.log('Insert ID:', result.insertId);
     
     res.json({ 
       message: 'Usuário admin criado com sucesso',
@@ -25,7 +26,8 @@ router.post('/create-admin', async (req, res) => {
     });
   } catch (error) {
     console.error('Erro ao criar usuário:', error);
-    res.status(500).json({ error: 'Erro ao criar usuário' });
+    console.error('SQL Error:', error.sqlMessage);
+    res.status(500).json({ error: 'Erro ao criar usuário', details: error.sqlMessage });
   }
 });
 
