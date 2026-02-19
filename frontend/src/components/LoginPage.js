@@ -24,7 +24,7 @@ function LoginPage() {
 
     try {
       const apiUrl = process.env.REACT_APP_API_URL || 'https://mara-e-lu-backend.up.railway.app';
-      const response = await axios.post(`${apiUrl}/api/auth/login`, formData);
+      const response = await axios.post(`${apiUrl}/api/auth/login-simple`, formData);
       
       // Armazenar token
       localStorage.setItem('token', response.data.token);
