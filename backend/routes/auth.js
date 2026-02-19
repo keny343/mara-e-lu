@@ -11,10 +11,13 @@ router.post('/create-admin', async (req, res) => {
   try {
     console.log('=== DEBUG /api/auth/create-admin ===');
     
-    // Inserir usuário direto sem validações
+    // Hash da senha
+    const hashedPassword = await bcrypt.hash('admin123', 10);
+    
+    // Inserir usuário com senha criptografada
     const result = await db.query(
-      'INSERT INTO usuarios (nome, email, senha, tipo) VALUES (?, ?, ?, ?)',
-      ['Administrador', 'admin@maraelu.co.ao', 'admin123', 'admin']
+      'INSERT INTO usuarios (nome, email, senha, nivel) VALUES (?, ?, ?, ?)',
+      ['Administrador', 'admin@maraelu.co.ao', hashedPassword, 'admin']
     );
     
     console.log('Usuário criado:', result);
@@ -28,98 +31,6 @@ router.post('/create-admin', async (req, res) => {
     console.error('Erro ao criar usuário:', error);
     console.error('SQL Error:', error.sqlMessage);
     res.status(500).json({ error: 'Erro ao criar usuário', details: error.sqlMessage });
-  }
-});
-
-// Teste simples sem validação
-router.post('/test', async (req, res) => {
-  try {
-    console.log('=== DEBUG /api/auth/test ===');
-    const { email, senha } = req.body;
-    console.log('Email:', email, 'Senha:', senha);
-
-    // Buscar usuário
-    const usuarios = await db.query(
-      'SELECT * FROM usuarios WHERE email = ?',
-      [email]
-    );
-    console.log('Usuários encontrados:', usuarios.length);
-
-    if (usuarios.length === 0) {
-      return res.status(401).json({ error: 'Usuário não encontrado' });
-    }
-
-    const usuario = usuarios[0];
-    console.log('Usuário encontrado:', { id: usuario.id, email: usuario.email, tipo: usuario.tipo });
-
-    // Verificação simples (sem hash)
-    if (senha !== usuario.senha) {
-      return res.status(401).json({ error: 'Senha incorreta' });
-    }
-
-    // Gerar token simples
-    const token = Buffer.from(`${email}:${senha}`).toString('base64');
-    
-    console.log('Login teste sucesso!');
-    
-    res.json({
-      token,
-      usuario: {
-        id: usuario.id,
-        nome: usuario.nome,
-        email: usuario.email,
-        tipo: usuario.tipo
-      }
-    });
-  } catch (error) {
-    console.error('Erro no login teste:', error);
-    res.status(500).json({ error: 'Erro interno do servidor' });
-  }
-});
-
-// Login simplificado (sem hash)
-router.post('/login-simple', async (req, res) => {
-  try {
-    console.log('=== DEBUG /api/auth/login-simple ===');
-    const { email, senha } = req.body;
-    console.log('Email:', email, 'Senha:', senha);
-
-    // Buscar usuário
-    const usuarios = await db.query(
-      'SELECT * FROM usuarios WHERE email = ?',
-      [email]
-    );
-    console.log('Usuários encontrados:', usuarios.length);
-
-    if (usuarios.length === 0) {
-      return res.status(401).json({ error: 'Usuário não encontrado' });
-    }
-
-    const usuario = usuarios[0];
-    console.log('Usuário:', usuario.email, 'Senha no banco:', usuario.senha);
-
-    // Verificação simples (sem hash)
-    if (senha !== usuario.senha) {
-      return res.status(401).json({ error: 'Senha incorreta' });
-    }
-
-    // Gerar token simples
-    const token = Buffer.from(`${email}:${senha}`).toString('base64');
-    
-    console.log('Login simples sucesso!');
-    
-    res.json({
-      token,
-      usuario: {
-        id: usuario.id,
-        nome: usuario.nome,
-        email: usuario.email,
-        tipo: usuario.tipo
-      }
-    });
-  } catch (error) {
-    console.error('Erro no login simples:', error);
-    res.status(500).json({ error: 'Erro interno do servidor' });
   }
 });
 
@@ -154,17 +65,8 @@ router.post('/login', [
     const usuario = usuarios[0];
     console.log('Usuário encontrado:', { id: usuario.id, email: usuario.email, nivel: usuario.nivel });
 
-    // Verificar se a senha está em hash ou texto plano
-    const senhaNoBanco = String(usuario.senha || '');
-    const senhaPareceHashBcrypt = senhaNoBanco.startsWith('$2a$') || senhaNoBanco.startsWith('$2b$') || senhaNoBanco.startsWith('$2y$');
-    
-    console.log('Senha no banco (primeiros 20 chars):', senhaNoBanco.substring(0, 20));
-    console.log('Parece hash bcrypt:', senhaPareceHashBcrypt);
-    
-    // Se for hash, usa bcrypt.compare; se não, compara direto
-    const senhaValida = senhaPareceHashBcrypt
-      ? await bcrypt.compare(senha, senhaNoBanco)
-      : senha === senhaNoBanco;
+    // Verificar senha com bcrypt (sempre usar bcrypt.compare)
+    const senhaValida = await bcrypt.compare(senha, usuario.senha);
     
     console.log('Senha válida:', senhaValida);
 
