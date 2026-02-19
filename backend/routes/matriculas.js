@@ -34,8 +34,7 @@ router.get('/', async (req, res) => {
       params.push(`%${search}%`, `%${search}%`, `%${search}%`);
     }
 
-    query += ' ORDER BY m.data_matricula DESC LIMIT ? OFFSET ?';
-    params.push(limit, offset);
+    query += ` ORDER BY m.data_matricula DESC LIMIT ${limit} OFFSET ${offset}`;
     
     const matriculas = await db.query(query, params);
     

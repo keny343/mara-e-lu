@@ -40,8 +40,7 @@ router.get('/', async (req, res) => {
       query += ' WHERE ' + whereConditions.join(' AND ');
     }
 
-    query += ' ORDER BY i.data_inscricao DESC LIMIT ? OFFSET ?';
-    params.push(limit, offset);
+    query += ` ORDER BY i.data_inscricao DESC LIMIT ${limit} OFFSET ${offset}`;
     
     const inscricoes = await db.query(query, params);
     

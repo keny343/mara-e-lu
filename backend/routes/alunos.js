@@ -20,8 +20,7 @@ router.get('/', async (req, res) => {
       params.push(`%${search}%`, `%${search}%`, `%${search}%`);
     }
     
-    query += ' ORDER BY created_at DESC LIMIT ? OFFSET ?';
-    params.push(limit, offset);
+    query += ` ORDER BY created_at DESC LIMIT ${limit} OFFSET ${offset}`;
     
     const alunos = await db.query(query, params);
     
