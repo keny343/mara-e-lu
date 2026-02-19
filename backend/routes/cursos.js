@@ -7,6 +7,9 @@ const router = express.Router();
 // Listar todos os cursos
 router.get('/', async (req, res) => {
   try {
+    console.log('=== DEBUG /api/cursos ===');
+    console.log('req.query:', req.query);
+    
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const search = req.query.search || '';
@@ -37,7 +40,11 @@ router.get('/', async (req, res) => {
     query += ' ORDER BY data_criacao DESC LIMIT ? OFFSET ?';
     params.push(limit, offset);
     
+    console.log('Query final:', query);
+    console.log('Params:', params);
+    
     const cursos = await db.query(query, params);
+    console.log('Cursos encontrados:', cursos.length);
     
     // Buscar total para paginação
     let countQuery = 'SELECT COUNT(*) as total FROM cursos';
