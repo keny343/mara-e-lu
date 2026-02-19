@@ -37,8 +37,7 @@ router.get('/', async (req, res) => {
       query += ' WHERE ' + whereConditions.join(' AND ');
     }
 
-    query += ' ORDER BY data_criacao DESC LIMIT ? OFFSET ?';
-    params.push(limit, offset);
+    query += ` ORDER BY data_criacao DESC LIMIT ${limit} OFFSET ${offset}`;
     
     console.log('Query final:', query);
     console.log('Params:', params);
