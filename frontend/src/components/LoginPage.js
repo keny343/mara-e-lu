@@ -29,7 +29,7 @@ function LoginPage() {
 
     try {
       const apiUrl = process.env.REACT_APP_API_URL || 'https://mara-e-lu-backend.up.railway.app';
-      console.log('Fazendo request para:', `${apiUrl}/api/auth/login-simple`);
+      console.log('Fazendo request para:', `${apiUrl}/api/auth/login`);
       
       // Enviar dados manualmente para garantir
       const requestData = {
@@ -39,12 +39,12 @@ function LoginPage() {
       
       console.log('Request data manual:', requestData);
       
-      const response = await axios.post(`${apiUrl}/api/auth/login-simple`, requestData);
+      const response = await axios.post(`${apiUrl}/api/auth/login`, requestData);
       console.log('Resposta da API:', response.data);
       
       // Armazenar token
       localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
+      localStorage.setItem('user', JSON.stringify(response.data.usuario));
       
       // Redirecionar para dashboard (implementar depois)
       alert('Login realizado com sucesso!');
