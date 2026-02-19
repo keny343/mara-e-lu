@@ -20,7 +20,7 @@ const ProtectedRoute = ({ children }) => {
   };
 
   const isAdmin = () => {
-    return user.nivel === 'admin' || user.nivel === 'secretaria';
+    return user.tipo === 'admin' || user.tipo === 'secretaria';
   };
 
   if (!isAuthenticated()) {
