@@ -6,6 +6,29 @@ const db = require('../config/database');
 
 const router = express.Router();
 
+// Criar usuário admin
+router.post('/create-admin', async (req, res) => {
+  try {
+    console.log('=== DEBUG /api/auth/create-admin ===');
+    
+    // Inserir usuário direto sem validações
+    const result = await db.query(
+      'INSERT INTO usuarios (nome, email, senha, tipo) VALUES (?, ?, ?, ?)',
+      ['Administrador', 'admin@maraelu.co.ao', 'admin123', 'admin']
+    );
+    
+    console.log('Usuário criado:', result);
+    
+    res.json({ 
+      message: 'Usuário admin criado com sucesso',
+      userId: result.insertId 
+    });
+  } catch (error) {
+    console.error('Erro ao criar usuário:', error);
+    res.status(500).json({ error: 'Erro ao criar usuário' });
+  }
+});
+
 // Login simplificado (sem hash)
 router.post('/login-simple', async (req, res) => {
   try {
