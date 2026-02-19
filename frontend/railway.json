@@ -5,7 +5,7 @@
   "deploy": {
     "startCommand": "npm ci --only=production && npm run build && npx serve -s build -l 8080",
     "healthcheckPath": "/",
-    "healthcheckTimeout": 100,
+    "healthcheckTimeout": 30000,
     "restartPolicyType": "ON_FAILURE"
   }
 }
