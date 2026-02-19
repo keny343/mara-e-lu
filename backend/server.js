@@ -9,7 +9,7 @@ const app = express();
 // Middlewares
 app.use(helmet());
 app.use(cors({
-  origin: ['https://mara-e-lu.up.railway.app', 'http://localhost:3000'],
+  origin: ['https://mara-e-lu.up.railway.app', 'https://mara-e-lu-frontend.up.railway.app', 'http://localhost:3000'],
   credentials: true
 }));
 app.use(express.json());
