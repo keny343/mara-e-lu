@@ -15,13 +15,13 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Rate limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutos
-  max: 100, // limite de 100 requisições
-  trustProxy: true // Confia no proxy do Railway
-});
-app.use(limiter);
+// Rate limiting (temporariamente desativado)
+// const limiter = rateLimit({
+//   windowMs: 15 * 60 * 1000, // 15 minutos
+//   max: 100, // limite de 100 requisições
+//   trustProxy: true // Confia no proxy do Railway
+// });
+// app.use(limiter);
 
 // Rotas
 app.use('/api/auth', require('./routes/auth'));
