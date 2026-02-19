@@ -108,18 +108,20 @@ router.post('/login', [
     const usuario = usuarios[0];
     console.log('Usuário encontrado:', { id: usuario.id, email: usuario.email, nivel: usuario.nivel });
 
-    // Verificar senha
+    // Verificar se a senha está em hash ou texto plano
     const senhaNoBanco = String(usuario.senha || '');
     const senhaPareceHashBcrypt = senhaNoBanco.startsWith('$2a$') || senhaNoBanco.startsWith('$2b$') || senhaNoBanco.startsWith('$2y$');
+    
     console.log('Senha no banco (primeiros 20 chars):', senhaNoBanco.substring(0, 20));
     console.log('Parece hash bcrypt:', senhaPareceHashBcrypt);
     
+    // Se for hash, usa bcrypt.compare; se não, compara direto
     const senhaValida = senhaPareceHashBcrypt
       ? await bcrypt.compare(senha, senhaNoBanco)
       : senha === senhaNoBanco;
     
     console.log('Senha válida:', senhaValida);
-    
+
     if (!senhaValida) {
       return res.status(401).json({ error: 'Credenciais inválidas' });
     }
