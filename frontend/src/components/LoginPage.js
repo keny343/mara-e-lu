@@ -25,6 +25,7 @@ function LoginPage() {
     console.log('=== DEBUG FRONTEND LOGIN ===');
     console.log('API URL:', process.env.REACT_APP_API_URL || 'https://mara-e-lu-backend.up.railway.app');
     console.log('Form data:', formData);
+    console.log('Email:', formData.email, 'Senha:', formData.password);
 
     try {
       const apiUrl = process.env.REACT_APP_API_URL || 'https://mara-e-lu-backend.up.railway.app';
