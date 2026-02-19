@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {
@@ -61,22 +61,22 @@ const Dashboard = () => {
   const [recentInscricoes, setRecentInscricoes] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Dados mock para evitar problemas de API
-  const mockStats = {
+  // Dados mock memorizados para evitar problemas de CI
+  const mockStats = useMemo(() => ({
     totalAlunos: 156,
     totalCursos: 8,
     totalInscricoes: 89,
     totalMatriculas: 67,
     totalPagamentos: 45
-  };
+  }), []);
 
-  const mockInscricoes = [
+  const mockInscricoes = useMemo(() => [
     { id: 1, nome: 'João Silva', curso: 'Informática Básica', status: 'pendente', data: '2024-01-15' },
     { id: 2, nome: 'Maria Santos', curso: 'Inglês Intermediário', status: 'aprovada', data: '2024-01-14' },
     { id: 3, nome: 'Pedro Costa', curso: 'Excel Avançado', status: 'pendente', data: '2024-01-14' },
     { id: 4, nome: 'Ana Oliveira', curso: 'Informática Básica', status: 'rejeitada', data: '2024-01-13' },
     { id: 5, nome: 'Carlos Silva', curso: 'Inglês Intermediário', status: 'aprovada', data: '2024-01-13' }
-  ];
+  ], []);
 
   const fetchDashboardData = useCallback(async () => {
     try {
