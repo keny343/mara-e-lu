@@ -5,7 +5,7 @@ import axios from 'axios';
 function LoginPage() {
   const [formData, setFormData] = React.useState({
     email: '',
-    password: ''
+    senha: ''
   });
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState('');
@@ -25,7 +25,7 @@ function LoginPage() {
     console.log('=== DEBUG FRONTEND LOGIN ===');
     console.log('API URL:', process.env.REACT_APP_API_URL || 'https://mara-e-lu-backend.up.railway.app');
     console.log('Form data ANTES de enviar:', formData);
-    console.log('Email:', formData.email, 'Senha:', formData.password);
+    console.log('Email:', formData.email, 'Senha:', formData.senha);
 
     try {
       const apiUrl = process.env.REACT_APP_API_URL || 'https://mara-e-lu-backend.up.railway.app';
@@ -182,8 +182,8 @@ function LoginPage() {
             </label>
             <input
               type="password"
-              name="password"
-              value={formData.password}
+              name="senha"
+              value={formData.senha}
               onChange={handleChange}
               required
               placeholder="Digite sua senha"
