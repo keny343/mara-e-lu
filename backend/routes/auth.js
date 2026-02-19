@@ -96,8 +96,12 @@ router.post('/login', [
       }
     });
   } catch (error) {
-    console.error('Erro no login:', error);
-    res.status(500).json({ error: 'Erro interno do servidor' });
+    console.error('=== ERRO DETALHADO NO LOGIN ===');
+    console.error('Tipo do erro:', error.constructor.name);
+    console.error('Mensagem:', error.message);
+    console.error('Stack:', error.stack);
+    console.error('================================');
+    res.status(500).json({ error: 'Erro interno do servidor', debug: error.message });
   }
 });
 
