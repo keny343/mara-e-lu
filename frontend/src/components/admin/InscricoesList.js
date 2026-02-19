@@ -21,10 +21,6 @@ const InscricoesList = () => {
   const [inscricaoToUpdate, setInscricaoToUpdate] = useState(null);
   const [newStatus, setNewStatus] = useState('');
 
-  useEffect(() => {
-    fetchInscricoes();
-  }, [currentPage, searchTerm, statusFilter, fetchInscricoes]);
-
   const fetchInscricoes = useCallback(async () => {
     try {
       const api = axios.create({
@@ -49,7 +45,7 @@ const InscricoesList = () => {
 
       const response = await api.get('/api/inscricoes', { params });
       setInscricoes(response.data.inscricoes || []);
-      setTotalPages(response.data.totalPages || 1);
+      setTotalPages(response.data.pagination?.totalPages || 1);
     } catch (error) {
       console.error('Erro ao buscar inscrições:', error);
       // Dados mock para desenvolvimento
@@ -86,6 +82,10 @@ const InscricoesList = () => {
       setLoading(false);
     }
   }, [currentPage, searchTerm, statusFilter]);
+
+  useEffect(() => {
+    fetchInscricoes();
+  }, [fetchInscricoes]);
 
   const handleStatusUpdate = async () => {
     if (!inscricaoToUpdate || !newStatus) return;

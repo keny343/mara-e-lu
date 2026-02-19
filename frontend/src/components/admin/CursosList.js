@@ -19,10 +19,6 @@ const CursosList = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [cursoToDelete, setCursoToDelete] = useState(null);
 
-  useEffect(() => {
-    fetchCursos();
-  }, [currentPage, searchTerm, fetchCursos]);
-
   const fetchCursos = useCallback(async () => {
     try {
       const api = axios.create({
@@ -43,7 +39,7 @@ const CursosList = () => {
 
       const response = await api.get('/api/cursos', { params });
       setCursos(response.data.cursos || []);
-      setTotalPages(response.data.totalPages || 1);
+      setTotalPages(response.data.pagination?.totalPages || 1);
     } catch (error) {
       console.error('Erro ao buscar cursos:', error);
       // Dados mock para desenvolvimento
@@ -79,6 +75,10 @@ const CursosList = () => {
       setLoading(false);
     }
   }, [currentPage, searchTerm]);
+
+  useEffect(() => {
+    fetchCursos();
+  }, [fetchCursos]);
 
   const handleDelete = async () => {
     if (!cursoToDelete) return;

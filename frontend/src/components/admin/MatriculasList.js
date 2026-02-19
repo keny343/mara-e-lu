@@ -14,10 +14,6 @@ const MatriculasList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  useEffect(() => {
-    fetchMatriculas();
-  }, [currentPage, searchTerm, fetchMatriculas]);
-
   const fetchMatriculas = useCallback(async () => {
     try {
       const api = axios.create({
@@ -70,6 +66,10 @@ const MatriculasList = () => {
       setLoading(false);
     }
   }, [currentPage, searchTerm]);
+
+  useEffect(() => {
+    fetchMatriculas();
+  }, [fetchMatriculas]);
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('pt-BR', {

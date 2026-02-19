@@ -19,10 +19,6 @@ const AlunosList = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [alunoToDelete, setAlunoToDelete] = useState(null);
 
-  useEffect(() => {
-    fetchAlunos();
-  }, [currentPage, searchTerm, fetchAlunos]);
-
   const fetchAlunos = useCallback(async () => {
     try {
       const api = axios.create({
@@ -43,7 +39,7 @@ const AlunosList = () => {
 
       const response = await api.get('/api/alunos', { params });
       setAlunos(response.data.alunos || []);
-      setTotalPages(response.data.totalPages || 1);
+      setTotalPages(response.data.pagination?.totalPages || 1);
     } catch (error) {
       console.error('Erro ao buscar alunos:', error);
       // Dados mock para desenvolvimento
@@ -71,6 +67,10 @@ const AlunosList = () => {
       setLoading(false);
     }
   }, [currentPage, searchTerm]);
+
+  useEffect(() => {
+    fetchAlunos();
+  }, [fetchAlunos]);
 
   const handleDelete = async () => {
     if (!alunoToDelete) return;
