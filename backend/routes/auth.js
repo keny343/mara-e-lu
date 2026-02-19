@@ -81,7 +81,7 @@ router.post('/login', [
     const token = jwt.sign(
       { id: usuario.id, email: usuario.email, tipo: usuario.tipo },
       process.env.JWT_SECRET,
-      { expiresIn: '7d' }
+      { expiresIn: 604800 } // 7 dias em segundos
     );
     
     console.log('Token gerado com sucesso');
