@@ -3,7 +3,7 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "npm ci --only=production && npm run build && serve -s build -l 8080",
+    "startCommand": "npm ci --only=production && npm run build && npx serve -s build -l 8080",
     "healthcheckPath": "/",
     "healthcheckTimeout": 100,
     "restartPolicyType": "ON_FAILURE"
