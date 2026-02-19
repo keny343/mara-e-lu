@@ -22,9 +22,16 @@ function LoginPage() {
     setLoading(true);
     setError('');
 
+    console.log('=== DEBUG FRONTEND LOGIN ===');
+    console.log('API URL:', process.env.REACT_APP_API_URL || 'https://mara-e-lu-backend.up.railway.app');
+    console.log('Form data:', formData);
+
     try {
       const apiUrl = process.env.REACT_APP_API_URL || 'https://mara-e-lu-backend.up.railway.app';
+      console.log('Fazendo request para:', `${apiUrl}/api/auth/login-simple`);
+      
       const response = await axios.post(`${apiUrl}/api/auth/login-simple`, formData);
+      console.log('Resposta da API:', response.data);
       
       // Armazenar token
       localStorage.setItem('token', response.data.token);
