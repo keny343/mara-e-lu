@@ -46,8 +46,8 @@ function LoginPage() {
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.usuario));
       
-      // Redirecionar para dashboard (implementar depois)
-      alert('Login realizado com sucesso!');
+      // Redirecionar para dashboard
+      window.location.href = '/admin/dashboard';
       
     } catch (err) {
       setError(err.response?.data?.error || 'Erro ao fazer login. Verifique suas credenciais.');
