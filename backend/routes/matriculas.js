@@ -12,8 +12,13 @@ function gerarNumeroMatricula(id) {
 // Listar matrículas
 router.get('/', async (req, res) => {
   try {
-    const matriculas = await db.query(
-      `SELECT 
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const search = req.query.search || '';
+    const offset = (page - 1) * limit;
+
+    let query = `
+      SELECT 
         m.*, 
         a.nome_completo AS aluno_nome,
         a.email AS aluno_email,
@@ -21,12 +26,58 @@ router.get('/', async (req, res) => {
       FROM matriculas m
       INNER JOIN alunos a ON a.id = m.aluno_id
       INNER JOIN cursos c ON c.id = m.curso_id
-      ORDER BY m.data_matricula DESC`
-    );
+    `;
+    let params = [];
+    
+    if (search) {
+      query += ' WHERE a.nome_completo LIKE ? OR c.nome LIKE ? OR m.numero_matricula LIKE ?';
+      params.push(`%${search}%`, `%${search}%`, `%${search}%`);
+    }
 
-    res.json(matriculas);
+    query += ` ORDER BY m.data_matricula DESC LIMIT ${limit} OFFSET ${offset}`;
+    
+    const matriculas = await db.query(query, params);
+    
+    // Buscar total para paginação
+    let countQuery = `
+      SELECT COUNT(*) as total 
+      FROM matriculas m
+      INNER JOIN alunos a ON a.id = m.aluno_id
+      INNER JOIN cursos c ON c.id = m.curso_id
+    `;
+    let countParams = [];
+    
+    if (search) {
+      countQuery += ' WHERE a.nome_completo LIKE ? OR c.nome LIKE ? OR m.numero_matricula LIKE ?';
+      countParams.push(`%${search}%`, `%${search}%`, `%${search}%`);
+    }
+    
+    const countResult = await db.query(countQuery, countParams);
+    const total = countResult[0].total;
+    const totalPages = Math.ceil(total / limit);
+    
+    res.json({
+      matriculas,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages
+      }
+    });
   } catch (error) {
     console.error('Erro ao listar matrículas:', error);
+    res.status(500).json({ error: 'Erro interno do servidor' });
+  }
+});
+
+// Contar matrículas
+router.get('/count', async (req, res) => {
+  try {
+    const result = await db.query('SELECT COUNT(*) as count FROM matriculas WHERE status = "ativa"');
+    res.json({ count: result[0].count });
+  } catch (error) {
+    console.error('Erro ao contar matrículas:', error);
     res.status(500).json({ error: 'Erro interno do servidor' });
   }
 });

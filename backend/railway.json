@@ -3,9 +3,9 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "npm ci --only=production && npm run build && npx serve -s build -l 8080",
+    "startCommand": "npm ci --only=production && npm start",
     "healthcheckPath": "/",
-    "healthcheckTimeout": 30000,
+    "healthcheckTimeout": 100,
     "restartPolicyType": "ON_FAILURE"
   }
 }

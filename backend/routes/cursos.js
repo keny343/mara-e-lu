@@ -7,12 +7,91 @@ const router = express.Router();
 // Listar todos os cursos
 router.get('/', async (req, res) => {
   try {
-    const cursos = await db.query(
-      'SELECT * FROM cursos WHERE status = "ativo" ORDER BY data_inicio ASC'
-    );
-    res.json(cursos);
+    console.log('=== DEBUG /api/cursos ===');
+    console.log('req.query:', req.query);
+    
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const search = req.query.search || '';
+    const status = req.query.status || '';
+    const offset = (page - 1) * limit;
+
+    let query = 'SELECT * FROM cursos';
+    let params = [];
+
+    const whereConditions = [];
+    if (search) {
+      whereConditions.push('(nome LIKE ? OR classe LIKE ? OR periodo_letivo LIKE ?)');
+      params.push(`%${search}%`, `%${search}%`, `%${search}%`);
+    }
+
+    if (status) {
+      whereConditions.push('status = ?');
+      params.push(status);
+    } else {
+      // Schema angolano usa status: 'ativa'|'encerrada'|'suspensa'
+      whereConditions.push('status = "ativa"');
+    }
+
+    if (whereConditions.length > 0) {
+      query += ' WHERE ' + whereConditions.join(' AND ');
+    }
+
+    query += ` ORDER BY data_criacao DESC LIMIT ${limit} OFFSET ${offset}`;
+    
+    console.log('Query final:', query);
+    console.log('Params:', params);
+    
+    const cursos = await db.query(query, params);
+    console.log('Cursos encontrados:', cursos.length);
+    
+    // Buscar total para paginação
+    let countQuery = 'SELECT COUNT(*) as total FROM cursos';
+    let countParams = [];
+
+    const countWhereConditions = [];
+    if (search) {
+      countWhereConditions.push('(nome LIKE ? OR classe LIKE ? OR periodo_letivo LIKE ?)');
+      countParams.push(`%${search}%`, `%${search}%`, `%${search}%`);
+    }
+
+    if (status) {
+      countWhereConditions.push('status = ?');
+      countParams.push(status);
+    } else {
+      countWhereConditions.push('status = "ativa"');
+    }
+
+    if (countWhereConditions.length > 0) {
+      countQuery += ' WHERE ' + countWhereConditions.join(' AND ');
+    }
+    
+    const countResult = await db.query(countQuery, countParams);
+    const total = countResult[0].total;
+    const totalPages = Math.ceil(total / limit);
+    
+    res.json({
+      cursos,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages
+      }
+    });
   } catch (error) {
     console.error('Erro ao listar cursos:', error);
+    res.status(500).json({ error: 'Erro interno do servidor' });
+  }
+});
+
+// Contar cursos
+router.get('/count', async (req, res) => {
+  try {
+    const result = await db.query('SELECT COUNT(*) as count FROM cursos WHERE status = "ativa"');
+    res.json({ count: result[0].count });
+  } catch (error) {
+    console.error('Erro ao contar cursos:', error);
     res.status(500).json({ error: 'Erro interno do servidor' });
   }
 });
@@ -36,12 +115,13 @@ router.get('/:id', async (req, res) => {
 // Criar novo curso
 router.post('/', [
   body('nome').notEmpty().trim(),
+  body('classe').notEmpty().trim(),
   body('descricao').optional().trim(),
-  body('duracao_meses').isInt({ min: 1 }),
-  body('valor').isFloat({ min: 0 }),
-  body('vagas_totais').isInt({ min: 1 }),
-  body('data_inicio').isDate(),
-  body('data_fim').isDate()
+  body('vagas_totais').isInt({ min: 0 }),
+  body('vagas_disponiveis').optional().isInt({ min: 0 }),
+  body('valor_matricula').optional().isFloat({ min: 0 }),
+  body('valor_mensalidade').optional().isFloat({ min: 0 }),
+  body('periodo_letivo').notEmpty().trim()
 ], async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -51,20 +131,35 @@ router.post('/', [
 
     const {
       nome,
+      classe,
       descricao,
-      duracao_meses,
-      valor,
       vagas_totais,
-      data_inicio,
-      data_fim
+      vagas_disponiveis,
+      valor_matricula,
+      valor_mensalidade,
+      periodo_letivo,
+      status
     } = req.body;
+
+    const vagasTotaisNum = Number(vagas_totais || 0);
+    const vagasDisponiveisNum = vagas_disponiveis !== undefined ? Number(vagas_disponiveis) : vagasTotaisNum;
 
     const result = await db.query(
       `INSERT INTO cursos (
-        nome, descricao, duracao_meses, valor, vagas_totais, vagas_disponiveis,
-        data_inicio, data_fim, status
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'ativo')`,
-      [nome, descricao, duracao_meses, valor, vagas_totais, vagas_totais, data_inicio, data_fim]
+        nome, classe, descricao, vagas_disponiveis, vagas_totais,
+        valor_matricula, valor_mensalidade, periodo_letivo, status
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        nome,
+        classe,
+        descricao || null,
+        vagasDisponiveisNum,
+        vagasTotaisNum,
+        valor_matricula !== undefined ? Number(valor_matricula) : null,
+        valor_mensalidade !== undefined ? Number(valor_mensalidade) : null,
+        periodo_letivo,
+        status || 'ativa'
+      ]
     );
 
     res.status(201).json({

@@ -5,7 +5,7 @@ import axios from 'axios';
 function LoginPage() {
   const [formData, setFormData] = React.useState({
     email: '',
-    password: ''
+    senha: ''
   });
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState('');
@@ -22,16 +22,32 @@ function LoginPage() {
     setLoading(true);
     setError('');
 
+    console.log('=== DEBUG FRONTEND LOGIN ===');
+    console.log('API URL:', process.env.REACT_APP_API_URL || 'https://mara-e-lu-backend.up.railway.app');
+    console.log('Form data ANTES de enviar:', formData);
+    console.log('Email:', formData.email, 'Senha:', formData.senha);
+
     try {
-      const apiUrl = process.env.REACT_APP_API_URL || 'https://seu-backend.railway.app';
-      const response = await axios.post(`${apiUrl}/api/auth/login`, formData);
+      const apiUrl = process.env.REACT_APP_API_URL || 'https://mara-e-lu-backend.up.railway.app';
+      console.log('Fazendo request para:', `${apiUrl}/api/auth/login`);
+      
+      // Enviar dados manualmente para garantir
+      const requestData = {
+        email: formData.email,
+        senha: formData.senha
+      };
+      
+      console.log('Request data manual:', requestData);
+      
+      const response = await axios.post(`${apiUrl}/api/auth/login`, requestData);
+      console.log('Resposta da API:', response.data);
       
       // Armazenar token
       localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
+      localStorage.setItem('user', JSON.stringify(response.data.usuario));
       
-      // Redirecionar para dashboard (implementar depois)
-      alert('Login realizado com sucesso!');
+      // Redirecionar para dashboard
+      window.location.href = '/admin';
       
     } catch (err) {
       setError(err.response?.data?.error || 'Erro ao fazer login. Verifique suas credenciais.');
@@ -174,8 +190,8 @@ function LoginPage() {
             </label>
             <input
               type="password"
-              name="password"
-              value={formData.password}
+              name="senha"
+              value={formData.senha}
               onChange={handleChange}
               required
               placeholder="Digite sua senha"

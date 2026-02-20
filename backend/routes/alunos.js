@@ -7,10 +7,58 @@ const router = express.Router();
 // Listar todos os alunos
 router.get('/', async (req, res) => {
   try {
-    const alunos = await db.query('SELECT * FROM alunos ORDER BY created_at DESC');
-    res.json(alunos);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const search = req.query.search || '';
+    const offset = (page - 1) * limit;
+
+    let query = 'SELECT * FROM alunos';
+    let params = [];
+    
+    if (search) {
+      query += ' WHERE nome_completo LIKE ? OR email LIKE ? OR numero_bilhete LIKE ?';
+      params.push(`%${search}%`, `%${search}%`, `%${search}%`);
+    }
+    
+    query += ` ORDER BY data_inscricao DESC LIMIT ${limit} OFFSET ${offset}`;
+    
+    const alunos = await db.query(query, params);
+    
+    // Buscar total para paginação
+    let countQuery = 'SELECT COUNT(*) as total FROM alunos';
+    let countParams = [];
+    
+    if (search) {
+      countQuery += ' WHERE nome_completo LIKE ? OR email LIKE ? OR numero_bilhete LIKE ?';
+      countParams.push(`%${search}%`, `%${search}%`, `%${search}%`);
+    }
+    
+    const countResult = await db.query(countQuery, countParams);
+    const total = countResult[0].total;
+    const totalPages = Math.ceil(total / limit);
+    
+    res.json({
+      alunos,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages
+      }
+    });
   } catch (error) {
     console.error('Erro ao listar alunos:', error);
+    res.status(500).json({ error: 'Erro interno do servidor' });
+  }
+});
+
+// Contar alunos
+router.get('/count', async (req, res) => {
+  try {
+    const result = await db.query('SELECT COUNT(*) as count FROM alunos');
+    res.json({ count: result[0].count });
+  } catch (error) {
+    console.error('Erro ao contar alunos:', error);
     res.status(500).json({ error: 'Erro interno do servidor' });
   }
 });
