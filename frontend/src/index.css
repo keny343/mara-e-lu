@@ -19,3 +19,13 @@ code {
 * {
   box-sizing: border-box;
 }
+
+svg.mr-3.h-5.w-5.flex-shrink-0 {
+  width: 20px;
+  height: 20px;
+}
+
+a.group.flex.items-center.px-2.py-2.text-sm.font-medium.rounded-md.transition-colors.bg-blue-100.text-blue-900 {
+  display: flex;
+  align-items: center;
+}
