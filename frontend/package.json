@@ -4,6 +4,10 @@
   "description": "Frontend React para sistema de inscrições e matrículas",
   "private": true,
   "homepage": "https://mara-e-lu.up.railway.app",
+  "engines": {
+    "node": "18.x",
+    "npm": "9.x"
+  },
   "dependencies": {
     "@headlessui/react": "^1.7.13",
     "@heroicons/react": "^2.0.16",
