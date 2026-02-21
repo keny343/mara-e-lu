@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Frontend React para sistema de inscrições e matrículas",
   "private": true,
+  "homepage": "https://mara-e-lu.up.railway.app",
   "dependencies": {
     "@headlessui/react": "^1.7.13",
     "@heroicons/react": "^2.0.16",
@@ -23,7 +24,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "serve": "serve -s build"
   },
   "eslintConfig": {
     "extends": [
