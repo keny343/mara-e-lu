@@ -1,7 +1,7 @@
 {
   "build": {
     "builder": "NIXPACKS",
-    "buildCommand": "cd frontend && npm install && npm run build && cd ../backend && npm install"
+    "buildCommand": "echo Building frontend && cd frontend && npm install --legacy-peer-deps && npm run build && cd ../backend && npm install --legacy-peer-deps"
   },
   "deploy": {
     "startCommand": "cd backend && npm start",
@@ -15,7 +15,14 @@
       "environment": {
         "MYSQL_ROOT_PASSWORD": "${MYSQL_ROOT_PASSWORD}",
         "MYSQL_DATABASE": "${MYSQL_DATABASE}"
-      }
+      },
+      "ports": [
+        "3306:3306"
+      ]
     }
+  },
+  "env": {
+    "MYSQL_ROOT_PASSWORD":ZZWTcLOQYZApyttLjntKrqbIUivOAmkN "",
+    "MYSQL_DATABASE": ""
   }
 }
