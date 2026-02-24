@@ -1,28 +1,14 @@
 {
-  "build": {
-    "builder": "NIXPACKS",
-    "buildCommand": "echo Building frontend && cd frontend && npm install --legacy-peer-deps && npm run build && cd ../backend && npm install --legacy-peer-deps"
-  },
-  "deploy": {
-    "startCommand": "cd backend && npm start",
-    "healthcheckPath": "/",
-    "healthcheckTimeout": 30000,
-    "restartPolicyType": "ON_FAILURE"
-  },
-  "services": {
-    "mysql": {
-      "image": "mysql:8.0",
-      "environment": {
-        "MYSQL_ROOT_PASSWORD": "${MYSQL_ROOT_PASSWORD}",
-        "MYSQL_DATABASE": "${MYSQL_DATABASE}"
-      },
-      "ports": [
-        "3306:3306"
-      ]
-    }
-  },
-  "env": {
-    "MYSQL_ROOT_PASSWORD":ZZWTcLOQYZApyttLjntKrqbIUivOAmkN "",
-    "MYSQL_DATABASE": ""
-  }
+"$schema": "https://railway.app/railway.schema.json",
+
+"build": {
+"builder": "NIXPACKS",
+"buildCommand": "echo Installing frontend deps... && cd frontend && npm install && npm run build && cd .. && echo Installing backend deps... && cd backend && npm install"
+},
+
+"deploy": {
+"startCommand": "cd backend && npm start",
+"restartPolicyType": "ON_FAILURE",
+"restartPolicyMaxRetries": 10
+}
 }
