@@ -1,18 +1,15 @@
 {
   "$schema": "https://railway.app/railway.schema.json",
-
   "build": {
     "builder": "NIXPACKS",
-    "buildCommand": "echo Installing frontend deps... && cd frontend && npm install && npm run build && cd .. && echo Installing backend deps... && cd backend && npm install"
+    "buildCommand": "echo Installing frontend deps... && npm install && npm run build"
   },
-
   "deploy": {
-    "startCommand": "cd backend && npm start",
+    "startCommand": "npm run serve",
     "healthcheckPath": "/",
     "healthcheckTimeout": 30000,
     "restartPolicyType": "ON_FAILURE"
   },
-
   "nixpacks": {
     "nodejs": {
       "version": "18"

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link } from 'react-router-dom';
 import axios from 'axios';
 import InscricaoForm from './components/InscricaoForm';
 import Footer from './components/Footer';
@@ -1071,7 +1071,6 @@ function Navbar() {
 
 function App() {
   return (
-    <Router>
       <div style={{ minHeight: '100vh' }}>
         <Navbar />
         <Routes>
@@ -1128,7 +1127,6 @@ function App() {
         </Routes>
         <Footer />
       </div>
-    </Router>
   );
 }
 

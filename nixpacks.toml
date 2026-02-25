@@ -3,14 +3,14 @@ nixPkgs = ["nodejs_18"]
 
 [phases.install]
 cmds = [
-  "cd frontend && npm install",
-  "cd backend && npm install"
+  "if [ -d frontend ]; then npm --prefix frontend install; elif [ -d ../frontend ]; then npm --prefix ../frontend install; else echo 'No frontend directory found, skipping frontend install'; fi",
+  "if [ -d backend ]; then npm --prefix backend install; else npm install; fi"
 ]
 
 [phases.build]
 cmds = [
-  "cd frontend && npm run build"
+  "if [ -d frontend ]; then npm --prefix frontend run build; elif [ -d ../frontend ]; then npm --prefix ../frontend run build; else echo 'No frontend directory found, skipping frontend build'; fi"
 ]
 
 [start]
-cmd = "cd backend && npm start"
+cmd = "if [ -d backend ]; then cd backend && npm start; else npm start; fi"
