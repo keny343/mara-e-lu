@@ -1,5 +1,5 @@
 diff --git a/backend/railway.json b/backend/railway.json
-index 6b1785ab28f7306a0294227824f9a4dfc91a3fec..155f6568e7f267873af3d231e3c10241d511357a 100644
+index 6b1785ab28f7306a0294227824f9a4dfc91a3fec..7f93088eb9df44ecf644250e0fc5383cd3776b3e 100644
 --- a/backend/railway.json
 +++ b/backend/railway.json
 @@ -1,21 +1,18 @@
@@ -9,12 +9,12 @@ index 6b1785ab28f7306a0294227824f9a4dfc91a3fec..155f6568e7f267873af3d231e3c10241
    "build": {
      "builder": "NIXPACKS",
 -    "buildCommand": "echo Installing frontend deps... && cd frontend && npm install && npm run build && cd .. && echo Installing backend deps... && cd backend && npm install"
-+    "buildCommand": "echo Installing frontend deps... && if [ -d frontend ]; then npm --prefix frontend install && npm --prefix frontend run build; elif [ -d ../frontend ]; then npm --prefix ../frontend install && npm --prefix ../frontend run build; else echo 'No frontend directory found, skipping frontend build'; fi && echo Installing backend deps... && if [ -d backend ]; then npm --prefix backend install; else npm install; fi"
++    "buildCommand": "echo Installing backend deps... && npm install"
    },
 -
    "deploy": {
 -    "startCommand": "cd backend && npm start",
-+    "startCommand": "if [ -d backend ]; then cd backend && npm start; else npm start; fi",
++    "startCommand": "npm start",
      "healthcheckPath": "/",
      "healthcheckTimeout": 30000,
      "restartPolicyType": "ON_FAILURE"
