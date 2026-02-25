@@ -1,16 +1,30 @@
-[phases.setup]
-nixPkgs = ["nodejs_18"]
-
-[phases.install]
-cmds = [
-  "cd frontend && npm install",
-  "cd backend && npm install"
-]
-
-[phases.build]
-cmds = [
-  "cd frontend && npm run build"
-]
-
-[start]
-cmd = "cd backend && npm start"
+ (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
+diff --git a/nixpacks.toml b/nixpacks.toml
+index 6d5051c5d4423f6ed4e96542e01c9300aa985b0d..47e0dfe406284875196a4d111dc15d48a2452660 100644
+--- a/nixpacks.toml
++++ b/nixpacks.toml
+@@ -1,16 +1,16 @@
+ [phases.setup]
+ nixPkgs = ["nodejs_18"]
+ 
+ [phases.install]
+ cmds = [
+-  "cd frontend && npm install",
+-  "cd backend && npm install"
++  "if [ -d frontend ]; then npm --prefix frontend install; elif [ -d ../frontend ]; then npm --prefix ../frontend install; else echo 'No frontend directory found, skipping frontend install'; fi",
++  "if [ -d backend ]; then npm --prefix backend install; else npm install; fi"
+ ]
+ 
+ [phases.build]
+ cmds = [
+-  "cd frontend && npm run build"
++  "if [ -d frontend ]; then npm --prefix frontend run build; elif [ -d ../frontend ]; then npm --prefix ../frontend run build; else echo 'No frontend directory found, skipping frontend build'; fi"
+ ]
+ 
+ [start]
+-cmd = "cd backend && npm start"
+\ No newline at end of file
++cmd = "if [ -d backend ]; then cd backend && npm start; else npm start; fi"
+ 
+EOF
+)
