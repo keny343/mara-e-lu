@@ -5,7 +5,7 @@
   "private": true,
   "homepage": "https://mara-e-lu.up.railway.app",
   "engines": {
-    "node": "18.x",
+    "node": "18.18.0",
     "npm": "9.x"
   },
   "dependencies": {
